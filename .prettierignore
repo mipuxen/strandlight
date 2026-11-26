@@ -1,0 +1,4 @@
+dist
+public/mediapipe
+public/models
+package-lock.json
