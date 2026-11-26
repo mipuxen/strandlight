@@ -39,7 +39,7 @@ Kamera yo'qmi? Barmoq va sichqoncha ham ishlaydi: **bosib turing, keyin torting*
 - **Video yozish:** sahna, kamera yoki butun ekran, MP4 (yoki WebM) bo'lib to'g'ridan-to'g'ri yuklab olinadi. Mikrofon kerak emas.
 - **Web MIDI** va [`strandlight-bridge`](packages/bridge) orqali **OSC** (TouchDesigner, Max, Ableton uchun).
 - **3 mavzu:** Neon Cosmos, Golden Harp, White Silk. **12 til**, brauzer tilidan avtomatik tanlanadi.
-- **Arvoh qo'l bilan interaktiv guide** — 5 qadam, har biri siz bajarganda yakunlanadi.
+- **Katta arvoh qo'l bilan interaktiv guide** — 6 qadam (ko'rsatish, qisish, tortish, qo'yib yuborish, chalish, chertish), qiyin bo'lsa maslahat chiqadi. Keyin pastda kichik "Qanday chalinadi" tugmasiga aylanadi; **H** esa har bir imo-ishora animatsiya bilan ko'rsatilgan yo'riqnomani ochadi.
 
 ## Maxfiylik
 

@@ -125,6 +125,7 @@ export class App {
         /* ignore */
       }
     };
+    this.guide.onHelp = () => this.shell.openHelp();
     onLocaleChange(() => this.guide.refreshText());
 
     this.field.onChange = () => this.retuneAll();
@@ -191,6 +192,7 @@ export class App {
     }
 
     if (!this.guideDone()) this.guide.start();
+    else this.guide.showMini();
   }
 
   private guideDone(): boolean {
@@ -404,8 +406,10 @@ export class App {
   private moveDrag(id: string, at: Vec2): void {
     const d = this.drags.get(id);
     if (!d) return;
-    if (d.kind === 'draw') d.end = { ...at };
-    else if (d.kind === 'end') {
+    if (d.kind === 'draw') {
+      d.end = { ...at };
+      if (this.renderer.lengthRatio(d.start, d.end) > 0.06) this.signal('pull');
+    } else if (d.kind === 'end') {
       d.strand[d.end] = { ...at };
       this.bend(d.strand);
     } else {

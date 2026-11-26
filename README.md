@@ -45,7 +45,7 @@ No camera? Touch and mouse work too: **press and hold, then drag** to draw; **sw
 - **Web MIDI** out (one channel per timbre, string tension on CC 1) and **OSC** through the tiny [`strandlight-bridge`](packages/bridge) for TouchDesigner, Max and Ableton.
 - **Three themes:** Neon Cosmos, Golden Harp, White Silk. WebGL2 bloom with a Canvas 2D fallback for light mode.
 - **12 languages**, picked from your browser settings. English, O'zbekcha, 한국어 and Русский are complete and reviewed; Español, 中文, 日本語, Deutsch, Français, Português, Türkçe and العربية (with RTL) cover the main screens and grow with community help.
-- **Interactive ghost-hand guide** in 5 steps. Each step finishes when you actually do it.
+- **Interactive guide with a life-size ghost hand** in 6 steps (show, pinch, pull, release, pluck, flick), each with a tip if you get stuck. Afterwards it shrinks to a small "How to play" dock, and **H** opens illustrated help cards for every gesture, the length-to-sound map, keys and tips.
 
 ## Privacy by design
 

@@ -7,6 +7,8 @@ import type { Mode } from '../core/music/mapping';
 import type { RecordSource } from '../core/record/recorder';
 import type { ScaleChoice, Settings } from '../settings';
 import { el, icon } from './dom';
+import { animate, SceneView } from './ghost/scene-view';
+import type { SceneId } from './ghost/scenes';
 
 export interface ShellActions {
   start(): void;
@@ -46,6 +48,7 @@ export class Shell {
   private panel: HTMLElement;
   private help: HTMLElement;
   private about: HTMLElement;
+  private stopHelpAnims: (() => void)[] = [];
   private looperRow: HTMLElement;
   private recBadge: HTMLElement;
   private countdown: HTMLElement;
@@ -104,7 +107,7 @@ export class Shell {
     this.renderAttract();
     this.renderToolbar();
     this.renderPanel();
-    this.renderHelp();
+    if (this.helpOpen) this.renderHelp();
     this.renderLooper();
     if (this.statusKey) this.status.textContent = t(this.statusKey.key, this.statusKey.params);
   }
@@ -577,43 +580,131 @@ export class Shell {
   openHelp(): void {
     this.renderHelp();
     this.help.hidden = false;
-    (this.help.querySelector('button') as HTMLButtonElement | null)?.focus();
+    this.root.classList.remove('idle');
+    (this.help.querySelector('.help-x') as HTMLButtonElement | null)?.focus({
+      preventScroll: true,
+    });
   }
 
   closeHelp(): void {
     this.help.hidden = true;
+    this.stopHelpAnims.forEach((stop) => stop());
+    this.stopHelpAnims = [];
   }
 
   get helpOpen(): boolean {
     return !this.help.hidden;
   }
 
+  /** Help as cards: each gesture with its own looping ghost-hand animation. */
   private renderHelp(): void {
-    const close = el('button', { type: 'button', class: 'btn btn-primary', text: t('help.close') });
+    this.stopHelpAnims.forEach((stop) => stop());
+    this.stopHelpAnims = [];
+    const close = el('button', {
+      type: 'button',
+      class: 'btn btn-primary help-close',
+      text: t('help.close'),
+    });
     close.addEventListener('click', () => this.closeHelp());
-    const items: MessageKey[] = [
-      'help.draw',
-      'help.pluck',
-      'help.flick',
-      'help.stretch',
-      'help.fist',
-      'help.palm',
-      'help.pad',
-      'help.length',
+    const x = el(
+      'button',
+      { type: 'button', class: 'icon-btn help-x', 'aria-label': t('help.close') },
+      icon('close'),
+    );
+    x.addEventListener('click', () => this.closeHelp());
+
+    const cards: { scene: SceneId; key: string; modes?: boolean }[] = [
+      { scene: 'pull', key: 'draw' },
+      { scene: 'pluck', key: 'pluck' },
+      { scene: 'flick', key: 'flick' },
+      { scene: 'stretch', key: 'stretch', modes: true },
+      { scene: 'fist', key: 'fist' },
+      { scene: 'palm', key: 'palm', modes: true },
+      { scene: 'pad', key: 'pad' },
     ];
+    const grid = el('div', { class: 'help-grid' });
+    for (const c of cards) {
+      const view = new SceneView(c.scene, 240, 160, 'card-scene', 0.26);
+      view.touch = false;
+      this.stopHelpAnims.push(animate(view));
+      grid.append(
+        el(
+          'article',
+          { class: 'help-card' },
+          view.el,
+          el('h3', { text: t(`help.card.${c.key}.title` as MessageKey) }),
+          el('p', { text: t(`help.card.${c.key}.text` as MessageKey) }),
+          c.modes
+            ? el('span', {
+                class: 'help-badge',
+                text: `${t('mode.musician')} · ${t('mode.virtuoso')}`,
+              })
+            : null,
+        ),
+      );
+    }
+
+    // String length → sound, drawn to scale with each timbre's color.
+    const sound = el(
+      'div',
+      { class: 'help-sound' },
+      ...(['crystal', 'harp', 'bass'] as const).map((tb) =>
+        el(
+          'div',
+          { class: 'help-sound-row' },
+          el('span', { class: `help-sound-line ${tb}` }),
+          el('span', { text: t(`help.sound.${tb}` as MessageKey) }),
+        ),
+      ),
+    );
+
+    const keys: [string, MessageKey][] = [
+      ['Z', 'help.key.undo'],
+      ['Shift + Z', 'help.key.redo'],
+      ['C', 'help.key.clear'],
+      ['V', 'help.key.camera'],
+      ['Space', 'help.key.loop'],
+      ['H', 'help.key.help'],
+      ['Esc', 'help.close'],
+    ];
+    const keyList = el(
+      'div',
+      { class: 'help-keys' },
+      ...keys.map(([k, label]) =>
+        el('div', { class: 'help-key' }, el('kbd', { text: k }), el('span', { text: t(label) })),
+      ),
+    );
+    const tips = el(
+      'ul',
+      { class: 'help-tips' },
+      ...(['help.tip1', 'help.tip2', 'help.tip3', 'help.tip4'] as MessageKey[]).map((k) =>
+        el('li', { text: t(k) }),
+      ),
+    );
+
     this.help.replaceChildren(
       el(
         'div',
-        { class: 'modal-card' },
-        el('h2', { text: t('help.title') }),
-        el('ul', { class: 'help-list' }, ...items.map((k) => el('li', { text: t(k) }))),
-        el('h3', { text: t('help.keys') }),
+        { class: 'modal-card help-card-wrap' },
         el(
-          'ul',
-          { class: 'help-keys' },
-          ...(['help.keyUndo', 'help.keyClear', 'help.keyLoop'] as MessageKey[]).map((k) =>
-            el('li', { text: t(k) }),
+          'div',
+          { class: 'help-head' },
+          el(
+            'div',
+            {},
+            el('h2', { text: t('help.title') }),
+            el('p', { class: 'help-sub', text: t('help.subtitle') }),
           ),
+          x,
+        ),
+        grid,
+        el('h3', { class: 'help-section', text: t('help.sound.title') }),
+        sound,
+        el(
+          'div',
+          { class: 'help-columns' },
+          el('section', {}, el('h3', { class: 'help-section', text: t('help.keys') }), keyList),
+          el('section', {}, el('h3', { class: 'help-section', text: t('help.tips.title') }), tips),
         ),
         close,
       ),

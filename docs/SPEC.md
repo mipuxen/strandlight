@@ -92,7 +92,7 @@ The screen is a dark stage; light comes only from the strings. The interface sit
 - Fonts are self-hosted; no requests to Google Fonts. ✅
 - Rendering: WebGL2 bloom over the scene with slight chromatic aberration; Canvas 2D fallback, which is also the mobile light mode. Camera background mirrored at 20% brightness, can be turned off. Target 60 fps desktop, 30 fps phone. ✅ (sparks currently simulated on the CPU, capped at 1,500)
 - **Attract mode:** before camera permission, demo strings ring on their own, with a "Start playing" button in the middle. ✅
-- **Ghost-hand guide (5 steps, under 60 s):** show your hand → pinch and pull → let go → sweep across → flick. Each step ends when the player does it; Skip is always visible; H reopens help. The ghost hand is drawn in code, so it needs no video and works in every language. ✅
+- **Ghost-hand guide (6 steps, under 60 s):** show your palm → pinch → pull → let go → sweep across → flick. A semi-transparent hand built from the same 21 landmarks the tracker uses shows every finger movement. Each step ends when the player does it, shows a tip after 8 s, and Skip is always visible. While learning it sits in the middle of the screen; afterwards it shrinks to a small "How to play" dock. **H** opens help cards with a looping hand for each gesture, the length-to-sound map, keys and tips. Drawn in code, so it needs no video and works in every language. ✅
 - **Demo video:** recorded with Strandlight's own recorder, 30–60 s, for the README, the site and Instagram. ⏳ (last step before the first public release announcement)
 
 ## Languages (i18n)
