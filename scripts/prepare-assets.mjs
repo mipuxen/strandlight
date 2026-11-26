@@ -1,7 +1,7 @@
 // Copies the MediaPipe wasm runtime out of node_modules and downloads the hand model,
 // verifying every file against assets.lock.json. Nothing is loaded from a CDN at runtime.
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -27,36 +27,50 @@ for (const file of lock.wasm.files) {
   copyFileSync(src, dest);
 }
 
-const model = lock.model;
-const modelDest = join(root, 'public/models', model.name);
-const verify = (buf) => {
-  const hash = sha256(buf);
-  if (model.sha256 === null) {
-    console.warn(`⚠ ${model.name} is not pinned yet. Downloaded sha256: ${hash}`);
-    console.warn('  Pin it in assets.lock.json after checking it against a second source.');
-    return true;
-  }
-  if (hash !== model.sha256) {
-    console.error(`✖ ${model.name}: hash mismatch (got ${hash}, expected ${model.sha256})`);
-    return false;
-  }
-  return true;
-};
+// The model's source and hash are constants in code, not read from a file, so nothing
+// outside this script can redirect the download. assets.lock.json mirrors them for docs.
+const MODEL_NAME = 'hand_landmarker.task';
+const MODEL_URL =
+  'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
+const MODEL_SHA256 = 'fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1';
+if (lock.model.sha256 !== MODEL_SHA256 || lock.model.url !== MODEL_URL) {
+  console.error('✖ assets.lock.json and scripts/prepare-assets.mjs disagree about the model');
+  process.exit(1);
+}
 
-if (existsSync(modelDest) && verify(readFileSync(modelDest))) {
-  console.log(`✔ ${model.name} already present`);
+const modelDest = join(root, 'public/models', MODEL_NAME);
+const matches = (buf) => sha256(buf) === MODEL_SHA256;
+
+/** Reads the cached model if it exists; no separate exists-check, so there is no race. */
+function readCached() {
+  try {
+    return readFileSync(modelDest);
+  } catch {
+    return null;
+  }
+}
+
+const cached = readCached();
+if (cached && matches(cached)) {
+  console.log(`✔ ${MODEL_NAME} already present`);
 } else {
   try {
-    const res = await fetch(model.url);
+    const res = await fetch(MODEL_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const buf = Buffer.from(await res.arrayBuffer());
-    if (verify(buf)) {
+    // Only bytes whose SHA-256 equals the pinned hash are ever written to disk.
+    if (!matches(buf)) {
+      console.error(
+        `✖ ${MODEL_NAME}: hash mismatch (got ${sha256(buf)}, expected ${MODEL_SHA256})`,
+      );
+      failed = true;
+    } else {
       mkdirSync(dirname(modelDest), { recursive: true });
-      writeFileSync(modelDest, buf);
-      console.log(`✔ ${model.name} downloaded`);
-    } else failed = true;
+      writeFileSync(modelDest, buf, { mode: 0o644 });
+      console.log(`✔ ${MODEL_NAME} downloaded and verified`);
+    }
   } catch (err) {
-    const msg = `Could not download ${model.name}: ${err.message}`;
+    const msg = `Could not download ${MODEL_NAME}: ${err.message}`;
     if (strict) {
       console.error(`✖ ${msg}`);
       failed = true;
