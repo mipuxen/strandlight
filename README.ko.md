@@ -55,7 +55,7 @@ npm run dev
 
 ## 어떻게 만들었나
 
-Strandlight는 **Khoshimov Shukhratbek**이 기획하고 주도했으며, **[Claude](https://claude.ai)(Anthropic)를 AI 페어 프로그래머로** 함께 만들었습니다. 함께 작성한 커밋에는 `Co-Authored-By: Claude` 줄이 있어 기록에 그대로 남습니다.
+Strandlight는 **Khoshimov Shukhratbek**이 기획하고 주도했으며, **[Claude](https://claude.ai)(Anthropic)를 AI 페어 프로그래머로** 함께 만들었습니다.
 
 에이전틱 소프트웨어 엔지니어링이었고, 사람이 맡은 부분이 곧 엔지니어링이었습니다:
 

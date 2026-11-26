@@ -56,7 +56,7 @@ npm run dev
 
 ## Qanday qurilgan
 
-Strandlight'ni **Khoshimov Shukhratbek** loyihalagan va boshqargan, **[Claude](https://claude.ai) (Anthropic) AI pair-programmer** sifatida yordam bergan. Birga yozilgan commitlarda `Co-Authored-By: Claude` qatori bor, shuning uchun tarix aynan shuni ko'rsatadi.
+Strandlight'ni **Khoshimov Shukhratbek** loyihalagan va boshqargan, **[Claude](https://claude.ai) (Anthropic) AI pair-programmer** sifatida yordam bergan.
 
 Bu agentic software engineering edi va inson tomonidagi ish — muhandislik:
 

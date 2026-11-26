@@ -69,7 +69,7 @@ npm run dev        # http://localhost:5173
 
 ## How it was built
 
-Strandlight is designed and directed by **Khoshimov Shukhratbek**, built with **[Claude](https://claude.ai) (Anthropic) as an AI pair-programmer**. Commits written together carry a `Co-Authored-By: Claude` line, so the history shows exactly that.
+Strandlight is designed and directed by **Khoshimov Shukhratbek**, built with **[Claude](https://claude.ai) (Anthropic) as an AI pair-programmer**.
 
 This was agentic software engineering, and the human side of it was the engineering:
 

@@ -119,7 +119,6 @@
   "about.role": "AI Agentic Software Engineer",
   "about.bio": "Mahsulotlarni loyihalayman va AI agentlar bilan quraman: avval spetsifikatsiya, har bir qaror sababi bilan, har bir qator tekshiriladi, xavfsizlik birinchi kundan.",
   "about.project": "Strandlight bitta savoldan boshlangan: faqat qo'llaringiz bilan yorug'likdan cholg'u yasash mumkinmi? U to'liq brauzeringizda ishlaydi, kamerangiz tasviri qurilmangizdan chiqmaydi.",
-  "about.built": "Claude (Anthropic) bilan AI pair-programmer sifatida qurilgan. Spetsifikatsiyani men yozdim, qarorlarni men qabul qildim va har bosqichni tekshirdim.",
   "about.github": "GitHub profil",
   "about.repo": "Manba kodi"
 }

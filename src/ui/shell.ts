@@ -554,7 +554,6 @@ export class Shell {
         el('p', { class: 'about-role', text: t('about.role') }),
         el('p', { text: t('about.bio') }),
         el('p', { class: 'about-muted', text: t('about.project') }),
-        el('p', { class: 'about-muted', text: t('about.built') }),
         el(
           'div',
           { class: 'inline wrap about-links' },
