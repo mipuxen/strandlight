@@ -22,7 +22,8 @@ export type GestureEvent =
   | { type: 'pinchEnd'; hand: Hand['key']; at: Vec2 }
   | { type: 'tipMove'; hand: Hand['key']; from: Vec2; to: Vec2; speed: number }
   | { type: 'flick'; hand: Hand['key']; at: Vec2; speed: number }
-  | { type: 'fist'; hand: Hand['key'] }
+  | { type: 'muteProgress'; hand: Hand['key']; progress: number }
+  | { type: 'mute'; hand: Hand['key'] }
   | { type: 'sustain'; on: boolean }
   | { type: 'handLost'; hand: Hand['key'] };
 
@@ -31,7 +32,8 @@ interface HandState {
   pinchPoint: Vec2;
   lastTip: Vec2 | null;
   lastTime: number;
-  fist: boolean;
+  vSince: number | null;
+  muted: boolean;
   palmSince: number | null;
   lastFlick: number;
   seenAt: number;
@@ -53,14 +55,36 @@ export function pinchDistance(h: Hand, aspect: number): number {
   return (d / palmSize(h, aspect)) * REFERENCE_PALM;
 }
 
-/** Fist: every fingertip (index → pinky) is folded close to the wrist. */
-export function isFist(h: Hand, aspect: number): boolean {
-  const palm = palmSize(h, aspect);
+/**
+ * Finger state from the joints, not from absolute distances: a finger is extended when
+ * its tip is clearly farther from the wrist than its middle joint (PIP), and curled when
+ * the tip has folded back closer to the wrist than that joint. This works at any
+ * distance from the camera and for any hand size.
+ */
+function fingerReach(h: Hand, tip: number, pip: number, aspect: number): number {
   const w = h.points[LM.wrist] as Vec2;
-  return [LM.indexTip, LM.middleTip, LM.ringTip, LM.pinkyTip].every(
-    (i) => adist(h.points[i] as Vec2, w, aspect) < palm * 1.05,
+  return adist(h.points[tip] as Vec2, w, aspect) / (adist(h.points[pip] as Vec2, w, aspect) || 1);
+}
+const isExtended = (h: Hand, tip: number, pip: number, aspect: number) =>
+  fingerReach(h, tip, pip, aspect) > 1.12;
+const isCurled = (h: Hand, tip: number, pip: number, aspect: number) =>
+  fingerReach(h, tip, pip, aspect) < 1.0;
+
+/** V sign: index and middle extended and apart, ring and pinky curled. Mutes everything. */
+export function isVSign(h: Hand, aspect: number): boolean {
+  const palm = palmSize(h, aspect);
+  const spread = adist(h.points[LM.indexTip] as Vec2, h.points[LM.middleTip] as Vec2, aspect);
+  return (
+    isExtended(h, LM.indexTip, 6, aspect) &&
+    isExtended(h, LM.middleTip, 10, aspect) &&
+    isCurled(h, LM.ringTip, 14, aspect) &&
+    isCurled(h, LM.pinkyTip, 18, aspect) &&
+    spread > palm * 0.3
   );
 }
+
+/** How long the V sign must be held before it mutes. */
+export const MUTE_HOLD_MS = 500;
 
 /** Open palm: every fingertip extended well beyond the knuckles and fingers spread. */
 export function isOpenPalm(h: Hand, aspect: number): boolean {
@@ -92,7 +116,8 @@ export class GestureEngine {
           pinchPoint: { x: 0, y: 0 },
           lastTip: null,
           lastTime: now,
-          fist: false,
+          vSince: null,
+          muted: false,
           palmSince: null,
           lastFlick: -Infinity,
           seenAt: now,
@@ -131,10 +156,21 @@ export class GestureEngine {
       st.lastTip = index;
       st.lastTime = now;
 
-      // Fist mutes everything (edge-triggered).
-      const fist = !st.pinching && isFist(h, aspect);
-      if (fist && !st.fist) out.push({ type: 'fist', hand: h.key });
-      st.fist = fist;
+      // V sign held for half a second mutes everything, once per gesture.
+      if (!st.pinching && isVSign(h, aspect)) {
+        st.vSince ??= now;
+        const progress = Math.min(1, (now - st.vSince) / MUTE_HOLD_MS);
+        if (!st.muted) out.push({ type: 'muteProgress', hand: h.key, progress });
+        if (progress >= 1 && !st.muted) {
+          st.muted = true;
+          out.push({ type: 'mute', hand: h.key });
+        }
+      } else {
+        if (st.vSince !== null && !st.muted)
+          out.push({ type: 'muteProgress', hand: h.key, progress: 0 });
+        st.vSince = null;
+        st.muted = false;
+      }
 
       // Open palm held for a second toggles sustain on; closing it turns it off.
       if (isOpenPalm(h, aspect)) st.palmSince ??= now;

@@ -130,8 +130,6 @@
   "help.card.flick.text": "Tor yonida tez cherting, uchqunlar tor bo'ylab ketadi.",
   "help.card.stretch.title": "Ko'chirish va cho'zish",
   "help.card.stretch.text": "Tor uchini qisib, torting. Nota silliq o'zgaradi.",
-  "help.card.fist.title": "Jim qilish",
-  "help.card.fist.text": "Hammasini jim qilish uchun musht qiling.",
   "help.card.palm.title": "Sustain",
   "help.card.palm.text": "Ochiq kaftni bir soniya qimirlatmay turing. Notalar uzoqroq yangraydi.",
   "help.card.pad.title": "Akkord",
@@ -150,5 +148,7 @@
   "help.tip1": "Yorug'lik orqangizdan emas, oldingizdan tushsin.",
   "help.tip2": "Qo'lingizni kameradan 40–60 sm uzoqda tuting.",
   "help.tip3": "Oddiy, bir xil fon kuzatuvga yordam beradi.",
-  "help.tip4": "Kamera yo'qmi? Bosib turing, keyin torting — tor chiziladi. Surib o'ting — chalinadi."
+  "help.tip4": "Kamera yo'qmi? Bosib turing, keyin torting — tor chiziladi. Surib o'ting — chalinadi.",
+  "help.card.mute.title": "Jim qilish",
+  "help.card.mute.text": "Ko'rsatkich va o'rta barmoq bilan V belgisini qilib, yarim soniya ushlab turing."
 }

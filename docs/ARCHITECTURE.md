@@ -7,7 +7,7 @@ camera ──► Tracker (main) ──ImageBitmap──► tracker.worker (Media
                                                    │ 21 landmarks × 2 hands
                                                    ▼
             HandSmoother (One Euro per point) ──► GestureEngine
-                                                   │ pinch / tipMove / flick / fist / sustain
+                                                   │ pinch / tipMove / flick / mute / sustain
                                                    ▼
    pointer & keys ──────────────────────────────► App ──► StrandField (strings + undo)
                                                    │         │
@@ -21,22 +21,22 @@ camera ──► Tracker (main) ──ImageBitmap──► tracker.worker (Media
 
 ## Folders
 
-| Path                               | What lives there                                                                                                                                                                            |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/core/tracking`                | Camera, the tracking worker and the MediaPipe wrapper. One frame in flight at a time (back-pressure), with a main-thread fallback if the worker can't start.                                |
-| `src/core/filters`                 | One Euro filter, tuned for normalized coordinates.                                                                                                                                          |
-| `src/core/gestures`                | Pure gesture logic, unit-tested: pinch with hysteresis (0.045 on / 0.07 off at a reference palm size, scaled by the real palm), 200 ms tracking-loss grace, fist, open-palm hold, flick.    |
-| `src/core/strings`                 | `Strand` (simplified standing-wave physics: 4 modes, excited by pluck position, exponential decay) and `StrandField` (48-string cap with fade-out, crossings, nearest endpoint, undo/redo). |
-| `src/core/music`                   | Scales and the length → note/timbre mapping. Longer strings are lower; notes snap to the scale except in Virtuoso "free" tuning.                                                            |
-| `src/core/audio`                   | Synthesis engine and the Karplus-Strong AudioWorklet. All sound is generated; no samples.                                                                                                   |
-| `src/core/instruments`             | Event-based looper (4 layers, sixteenth-note quantize) and metronome with tap tempo.                                                                                                        |
-| `src/core/render`                  | Canvas 2D scene drawn additively, then a WebGL2 bloom (threshold, two blur levels, light chromatic aberration). Light mode skips WebGL.                                                     |
-| `src/core/scene`                   | Scene schema, validation and `deflate-raw` + base64url links.                                                                                                                               |
-| `src/core/record`, `src/core/midi` | MediaRecorder wrapper, Web MIDI, OSC WebSocket client.                                                                                                                                      |
-| `src/i18n`                         | Tiny ICU formatter (`{var}`, `plural`), locale detection from `navigator.languages`, lazy-loaded locale files.                                                                              |
-| `src/ui`                           | Safe DOM helper, shell (toolbar, settings, help), ghost-hand guide, toasts, CSS themes.                                                                                                     |
-| `packages/bridge`                  | `strandlight-bridge`: localhost WebSocket → OSC/UDP.                                                                                                                                        |
-| `scripts`                          | Asset preparation with hash verification, translation checks.                                                                                                                               |
+| Path                               | What lives there                                                                                                                                                                                                                                    |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/core/tracking`                | Camera, the tracking worker and the MediaPipe wrapper. One frame in flight at a time (back-pressure), with a main-thread fallback if the worker can't start.                                                                                        |
+| `src/core/filters`                 | One Euro filter, tuned for normalized coordinates.                                                                                                                                                                                                  |
+| `src/core/gestures`                | Pure gesture logic, unit-tested: pinch with hysteresis (0.045 on / 0.07 off at a reference palm size, scaled by the real palm), 200 ms tracking-loss grace, V-sign mute (finger state measured joint-to-joint, held 500 ms), open-palm hold, flick. |
+| `src/core/strings`                 | `Strand` (simplified standing-wave physics: 4 modes, excited by pluck position, exponential decay) and `StrandField` (48-string cap with fade-out, crossings, nearest endpoint, undo/redo).                                                         |
+| `src/core/music`                   | Scales and the length → note/timbre mapping. Longer strings are lower; notes snap to the scale except in Virtuoso "free" tuning.                                                                                                                    |
+| `src/core/audio`                   | Synthesis engine and the Karplus-Strong AudioWorklet. All sound is generated; no samples.                                                                                                                                                           |
+| `src/core/instruments`             | Event-based looper (4 layers, sixteenth-note quantize) and metronome with tap tempo.                                                                                                                                                                |
+| `src/core/render`                  | Canvas 2D scene drawn additively, then a WebGL2 bloom (threshold, two blur levels, light chromatic aberration). Light mode skips WebGL.                                                                                                             |
+| `src/core/scene`                   | Scene schema, validation and `deflate-raw` + base64url links.                                                                                                                                                                                       |
+| `src/core/record`, `src/core/midi` | MediaRecorder wrapper, Web MIDI, OSC WebSocket client.                                                                                                                                                                                              |
+| `src/i18n`                         | Tiny ICU formatter (`{var}`, `plural`), locale detection from `navigator.languages`, lazy-loaded locale files.                                                                                                                                      |
+| `src/ui`                           | Safe DOM helper, shell (toolbar, settings, help), ghost-hand guide, toasts, CSS themes.                                                                                                                                                             |
+| `packages/bridge`                  | `strandlight-bridge`: localhost WebSocket → OSC/UDP.                                                                                                                                                                                                |
+| `scripts`                          | Asset preparation with hash verification, translation checks.                                                                                                                                                                                       |
 
 ## Performance budget
 

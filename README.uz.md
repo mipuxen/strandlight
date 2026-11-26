@@ -16,15 +16,15 @@ Webcam orqali qo'l kuzatuviga asoslangan brauzer cholg'usi. Hech narsa o'rnatish
 
 Ko'pchilik "havo arfa"larida torlar oldindan qotirilgan bo'ladi. Strandlight'da **cholg'uni o'zingiz yasaysiz**: bosh va ko'rsatkich barmog'ingizni qisib, torting va qo'yib yuboring — yorug' tor siz qoldirgan joyda turib qoladi. **Uzunligi uning ovozini belgilaydi**: qisqa torlar shishadek, o'rtachalari arfadek, uzunlari basdek yangraydi.
 
-| Imo-ishora                         | Natija                                              |
-| ---------------------------------- | --------------------------------------------------- |
-| Qisish → tortish → qo'yib yuborish | Yangi tor havoda qotadi                             |
-| Ko'rsatkich barmoq tordan o'tadi   | Tor chalinadi, tezroq bo'lsa balandroq              |
-| Tez chertish                       | Eng yaqin tor bo'ylab uchqunlar ketadi              |
-| Tor uchini qisib ushlash           | Torni ko'chirish yoki cho'zish (Musiqachi, Virtuoz) |
-| Musht                              | Hammasi jim bo'ladi                                 |
-| Ochiq kaft 1 soniya                | Sustain va reverb kuchayadi (Musiqachi, Virtuoz)    |
-| Ikkala qo'l ko'rinsa               | Barmoq uchlari orasida 5 ta ip pad akkord chaladi   |
+| Imo-ishora                           | Natija                                              |
+| ------------------------------------ | --------------------------------------------------- |
+| Qisish → tortish → qo'yib yuborish   | Yangi tor havoda qotadi                             |
+| Ko'rsatkich barmoq tordan o'tadi     | Tor chalinadi, tezroq bo'lsa balandroq              |
+| Tez chertish                         | Eng yaqin tor bo'ylab uchqunlar ketadi              |
+| Tor uchini qisib ushlash             | Torni ko'chirish yoki cho'zish (Musiqachi, Virtuoz) |
+| V belgisi (ko'rsatkich + o'rta), ½ s | Hammasi jim bo'ladi                                 |
+| Ochiq kaft 1 soniya                  | Sustain va reverb kuchayadi (Musiqachi, Virtuoz)    |
+| Ikkala qo'l ko'rinsa                 | Barmoq uchlari orasida 5 ta ip pad akkord chaladi   |
 
 Kamera yo'qmi? Barmoq va sichqoncha ham ishlaydi: **bosib turing, keyin torting** — tor chiziladi; **tez surib o'ting** — chalinadi.
 
@@ -70,7 +70,7 @@ Bu agentic software engineering edi va inson tomonidagi ish — muhandislik:
 
 <table>
   <tr>
-    <td><img src="docs/assets/seal.svg" width="140" alt="Khoshimov Shukhratbek muhri" /></td>
+    <td><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/seal-dark.svg" /><img src="docs/assets/seal-light.svg" width="140" alt="Khoshimov Shukhratbek muhri" /></picture></td>
     <td>
       <b>Khoshimov Shukhratbek</b> "Bruce"<br />
       AI Agentic Software Engineer<br />

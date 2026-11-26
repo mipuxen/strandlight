@@ -130,8 +130,6 @@
   "help.card.flick.text": "줄 근처에서 빠르게 튕기면 불꽃이 줄을 따라 흐릅니다.",
   "help.card.stretch.title": "옮기기·늘이기",
   "help.card.stretch.text": "줄 끝을 집고 끄세요. 음이 부드럽게 바뀝니다.",
-  "help.card.fist.title": "음소거",
-  "help.card.fist.text": "주먹을 쥐면 모든 소리가 멈춥니다.",
   "help.card.palm.title": "서스테인",
   "help.card.palm.text": "펼친 손바닥을 1초간 멈춰 두세요. 음이 더 길게 울립니다.",
   "help.card.pad.title": "화음",
@@ -150,5 +148,7 @@
   "help.tip1": "빛은 뒤가 아니라 앞에서 비추게 하세요.",
   "help.tip2": "손을 카메라에서 40–60cm 떨어뜨리세요.",
   "help.tip3": "단순한 배경이 추적에 도움이 됩니다.",
-  "help.tip4": "카메라가 없나요? 길게 누른 뒤 끌면 줄이 그려지고, 쓸면 연주됩니다."
+  "help.tip4": "카메라가 없나요? 길게 누른 뒤 끌면 줄이 그려지고, 쓸면 연주됩니다.",
+  "help.card.mute.title": "음소거",
+  "help.card.mute.text": "검지와 중지로 V를 만들고 0.5초간 유지하세요."
 }

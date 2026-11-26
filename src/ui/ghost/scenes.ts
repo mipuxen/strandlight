@@ -2,7 +2,7 @@ import type { HandFrame } from './ghost-hand';
 import { mix, POSES, type Pose, type PoseId } from './poses';
 
 export type SceneId =
-  'show' | 'pinch' | 'pull' | 'release' | 'pluck' | 'flick' | 'stretch' | 'fist' | 'palm' | 'pad';
+  'show' | 'pinch' | 'pull' | 'release' | 'pluck' | 'flick' | 'stretch' | 'mute' | 'palm' | 'pad';
 
 export interface SceneString {
   a: [number, number];
@@ -34,7 +34,7 @@ export const SCENE_LENGTH: Record<SceneId, number> = {
   pluck: 2.6,
   flick: 2.2,
   stretch: 3.2,
-  fist: 2.8,
+  mute: 3,
   palm: 3,
   pad: 3.4,
 };
@@ -211,20 +211,23 @@ export function sampleScene(
       );
       break;
     }
-    case 'fist': {
-      const k = seg(t, 0.9, 1.3) * (1 - seg(t, 2.3, 2.7));
-      const ringing = t < 1.2 ? 0.6 : 0.6 * (1 - seg(t, 1.1, 1.3));
+    case 'mute': {
+      // Make a V, hold it while the ring fills, and the ringing string stops.
+      const k = seg(t, 0.5, 0.9) * (1 - seg(t, 2.4, 2.8));
+      const hold = seg(t, 0.9, 1.5);
+      const ringing = t < 1.5 ? 0.6 : 0.6 * (1 - seg(t, 1.5, 1.6));
       f.strings.push({
-        a: [w * 0.18, h * 0.82],
-        b: [w * 0.3, h * 0.18],
+        a: [w * 0.16, h * 0.84],
+        b: [w * 0.28, h * 0.16],
         amp: ringing,
         phase: t * 22,
         color: 'harp',
         opacity: 1,
       });
       f.hands.push(
-        hand(pose('open', 'fist', k), w * 0.6, h * 0.42, k > 0.6 ? 'none' : 'none', fadeIn),
+        hand(pose('open', 'vsign', k), w * 0.58, h * 0.3, hold > 0 ? 'all' : 'none', fadeIn),
       );
+      if (k > 0.9 && t < 2.4) f.ring = { x: w * 0.85, y: h * 0.24, p: hold };
       break;
     }
     case 'palm': {

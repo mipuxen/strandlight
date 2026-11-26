@@ -618,7 +618,7 @@ export class Shell {
       { scene: 'pluck', key: 'pluck' },
       { scene: 'flick', key: 'flick' },
       { scene: 'stretch', key: 'stretch', modes: true },
-      { scene: 'fist', key: 'fist' },
+      { scene: 'mute', key: 'mute' },
       { scene: 'palm', key: 'palm', modes: true },
       { scene: 'pad', key: 'pad' },
     ];

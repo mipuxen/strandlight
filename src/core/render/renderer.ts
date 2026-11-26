@@ -16,6 +16,8 @@ export interface FrameState {
   video: HTMLVideoElement | null;
   showVideo: boolean;
   pulse: number; // 0..1 metronome pulse
+  /** V-sign hold progress: a ring that fills before everything mutes. */
+  mute: { at: Vec2; progress: number } | null;
   time: number;
 }
 
@@ -149,6 +151,16 @@ export class Renderer {
         c.arc(q.x, q.y, r, 0, Math.PI * 2);
         c.fill();
       }
+    }
+
+    if (f.mute && f.mute.progress > 0) {
+      const q = this.px(f.mute.at);
+      c.globalAlpha = 0.9;
+      c.strokeStyle = '#ffffff';
+      c.lineWidth = 3;
+      c.beginPath();
+      c.arc(q.x, q.y, 26, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * f.mute.progress);
+      c.stroke();
     }
 
     this.particles.step(dt);

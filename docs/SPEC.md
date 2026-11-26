@@ -15,39 +15,39 @@ Strandlight is an instrument that runs in the browser: in front of a webcam, the
 
 ## Decisions
 
-| Topic         | Decision                                                                                   | Status                               |
-| ------------- | ------------------------------------------------------------------------------------------ | ------------------------------------ |
-| Name, license | Strandlight, MIT                                                                           | ✅                                   |
-| Stack         | Vite + TypeScript, no framework                                                            | ✅                                   |
-| Architecture  | Serverless core + optional cloud (Supabase)                                                | ✅ core · ⏳ cloud                   |
-| Sound         | 3 timbres by length: short = Crystal, medium = Harp, long = Bass                           | ✅                                   |
-| Difficulty    | Beginner (default), Musician, Virtuoso                                                     | ✅                                   |
-| Gestures      | Pinch to draw, pluck, flick, grab to stretch, fist = mute, palm = sustain, two hands = pad | ✅                                   |
-| Music tools   | Looper, metronome/BPM, scene saving, video recording                                       | ✅                                   |
-| MIDI/OSC      | Web MIDI + optional `strandlight-bridge` (OSC)                                             | ✅ (bridge not yet on npm)           |
-| Design        | 3 themes: Neon Cosmos, Golden Harp, White Silk                                             | ✅                                   |
-| Guide         | Interactive ghost hand, short and beautiful                                                | ✅                                   |
-| Languages     | Auto-detect + manual switch. Full: EN, UZ, KO, RU. Extra: ES, ZH, JA, DE, FR, PT, TR, AR   | ✅ tier 1 · 🟡 tier 2 (main screens) |
-| Sign-in       | Google only, no passwords stored                                                           | ⏳                                   |
-| Video         | Downloaded on device; signed-in users can email themselves a 7-day link                    | ✅ download · ⏳ email               |
-| Admin         | Masked emails, anonymous analytics, exit survey, private feedback                          | ⏳                                   |
-| Showcase      | 1 video per user (60 s, 50 MB), admin-approved, comments                                   | ⏳                                   |
-| Mobile        | Light mode + touch input without a camera                                                  | ✅                                   |
-| Deploy        | GitHub Pages: core demo. Vercel: full official site                                        | ✅ Pages · ⏳ Vercel                 |
+| Topic         | Decision                                                                                     | Status                               |
+| ------------- | -------------------------------------------------------------------------------------------- | ------------------------------------ |
+| Name, license | Strandlight, MIT                                                                             | ✅                                   |
+| Stack         | Vite + TypeScript, no framework                                                              | ✅                                   |
+| Architecture  | Serverless core + optional cloud (Supabase)                                                  | ✅ core · ⏳ cloud                   |
+| Sound         | 3 timbres by length: short = Crystal, medium = Harp, long = Bass                             | ✅                                   |
+| Difficulty    | Beginner (default), Musician, Virtuoso                                                       | ✅                                   |
+| Gestures      | Pinch to draw, pluck, flick, grab to stretch, V sign = mute, palm = sustain, two hands = pad | ✅                                   |
+| Music tools   | Looper, metronome/BPM, scene saving, video recording                                         | ✅                                   |
+| MIDI/OSC      | Web MIDI + optional `strandlight-bridge` (OSC)                                               | ✅ (bridge not yet on npm)           |
+| Design        | 3 themes: Neon Cosmos, Golden Harp, White Silk                                               | ✅                                   |
+| Guide         | Interactive ghost hand, short and beautiful                                                  | ✅                                   |
+| Languages     | Auto-detect + manual switch. Full: EN, UZ, KO, RU. Extra: ES, ZH, JA, DE, FR, PT, TR, AR     | ✅ tier 1 · 🟡 tier 2 (main screens) |
+| Sign-in       | Google only, no passwords stored                                                             | ⏳                                   |
+| Video         | Downloaded on device; signed-in users can email themselves a 7-day link                      | ✅ download · ⏳ email               |
+| Admin         | Masked emails, anonymous analytics, exit survey, private feedback                            | ⏳                                   |
+| Showcase      | 1 video per user (60 s, 50 MB), admin-approved, comments                                     | ⏳                                   |
+| Mobile        | Light mode + touch input without a camera                                                    | ✅                                   |
+| Deploy        | GitHub Pages: core demo. Vercel: full official site                                          | ✅ Pages · ⏳ Vercel                 |
 
 ## Instrument: strings and gestures
 
 A string is a line of light between two points, vibrating with a decaying standing wave — a simplified model of a real string. The camera tracks 21 points on each hand.
 
-| Gesture                        | Result                                                                             | Modes              |
-| ------------------------------ | ---------------------------------------------------------------------------------- | ------------------ |
-| Pinch + pull + release         | A new string freezes in the air                                                    | All                |
-| Index finger crosses a string  | The string plays; faster is louder                                                 | All                |
-| Quick flick                    | Sparks run along the nearest string, which plays                                   | All                |
-| Pinch an existing string's end | Move or stretch it; pitch bends smoothly                                           | Musician, Virtuoso |
-| Fist                           | All strings fall silent                                                            | All                |
-| Open palm held 1 s             | Sustain and reverb grow                                                            | Musician, Virtuoso |
-| Both hands visible             | 5 live threads between fingertips play a pad chord; tighter threads sound brighter | All                |
+| Gesture                          | Result                                                                             | Modes              |
+| -------------------------------- | ---------------------------------------------------------------------------------- | ------------------ |
+| Pinch + pull + release           | A new string freezes in the air                                                    | All                |
+| Index finger crosses a string    | The string plays; faster is louder                                                 | All                |
+| Quick flick                      | Sparks run along the nearest string, which plays                                   | All                |
+| Pinch an existing string's end   | Move or stretch it; pitch bends smoothly                                           | Musician, Virtuoso |
+| V sign (index + middle) held ½ s | All strings fall silent (a ring fills while you hold it)                           | All                |
+| Open palm held 1 s               | Sustain and reverb grow                                                            | Musician, Virtuoso |
+| Both hands visible               | 5 live threads between fingertips play a pad chord; tighter threads sound brighter | All                |
 
 Technical requirements:
 

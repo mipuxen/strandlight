@@ -71,6 +71,8 @@ export class App {
   private attractTimer = 0;
   private padSince: number | null = null;
   private lastMuteToast = 0;
+  /** 0..1 while the V sign is being held, shown as a ring around the fingertips. */
+  private muteProgress = 0;
   private light: boolean;
 
   constructor(private host: HTMLElement) {
@@ -362,8 +364,11 @@ export class App {
       case 'flick':
         this.flick(e.at, e.speed, now);
         break;
-      case 'fist':
+      case 'mute':
         this.muteAll();
+        break;
+      case 'muteProgress':
+        this.muteProgress = e.progress;
         break;
       case 'sustain':
         if (this.settings.mode !== 'beginner') this.setSustain(e.on);
@@ -880,6 +885,13 @@ export class App {
         video: this.tracker?.video ?? null,
         showVideo: this.settings.showVideo,
         pulse: this.pulse,
+        mute: (() => {
+          const h = this.hands[0];
+          if (!h || this.muteProgress <= 0) return null;
+          const a = h.points[8] as Vec2;
+          const b = h.points[12] as Vec2;
+          return { at: { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, progress: this.muteProgress };
+        })(),
         time: now / 1000,
       },
       dt,

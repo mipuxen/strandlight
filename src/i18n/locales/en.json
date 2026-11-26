@@ -130,8 +130,6 @@
   "help.card.flick.text": "A quick flick near a string sends sparks along it.",
   "help.card.stretch.title": "Move & stretch",
   "help.card.stretch.text": "Pinch the end of a string and drag it. The note bends.",
-  "help.card.fist.title": "Mute",
-  "help.card.fist.text": "Close your hand into a fist to silence everything.",
   "help.card.palm.title": "Sustain",
   "help.card.palm.text": "Hold an open palm still for one second. Notes ring longer.",
   "help.card.pad.title": "Chord",
@@ -150,5 +148,7 @@
   "help.tip1": "Light in front of you, not behind.",
   "help.tip2": "Keep your hand 40–60 cm from the camera.",
   "help.tip3": "A plain background helps the tracking.",
-  "help.tip4": "No camera? Press and hold, then drag to draw. Swipe to play."
+  "help.tip4": "No camera? Press and hold, then drag to draw. Swipe to play.",
+  "help.card.mute.title": "Mute",
+  "help.card.mute.text": "Make a V with your index and middle finger and hold it for half a second."
 }

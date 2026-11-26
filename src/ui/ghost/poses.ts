@@ -105,7 +105,32 @@ const fist: Pose = [
   [0.44, -0.82],
 ];
 
-export const POSES = { open, pinch, point, fist } as const;
+/** V sign: index and middle up and apart, ring and pinky folded. Mutes everything. */
+const vsign: Pose = [
+  [0, 0],
+  [-0.34, -0.16],
+  [-0.46, -0.42],
+  [-0.34, -0.66],
+  [-0.16, -0.8],
+  [-0.3, -0.95],
+  [-0.42, -1.34],
+  [-0.5, -1.58],
+  [-0.56, -1.8],
+  [-0.05, -1.0],
+  [0.02, -1.44],
+  [0.07, -1.7],
+  [0.11, -1.93],
+  [0.2, -0.95],
+  [0.22, -1.22],
+  [0.22, -1.05],
+  [0.2, -0.92],
+  [0.42, -0.82],
+  [0.48, -1.04],
+  [0.47, -0.92],
+  [0.44, -0.82],
+];
+
+export const POSES = { open, pinch, point, fist, vsign } as const;
 export type PoseId = keyof typeof POSES;
 
 export function mix(a: Pose, b: Pose, t: number): Pose {

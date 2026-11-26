@@ -22,7 +22,7 @@
 | Указательный палец пересекает струну | Струна звучит, быстрее — громче             |
 | Резкий щелчок                        | Искры бегут по ближайшей струне             |
 | Взять струну за конец                | Сдвинуть или растянуть (Музыкант, Виртуоз)  |
-| Кулак                                | Всё затихает                                |
+| Знак V (указательный + средний), ½ с | Всё затихает                                |
 | Открытая ладонь 1 с                  | Сустейн и реверберация (Музыкант, Виртуоз)  |
 | Обе руки в кадре                     | Пять нитей между пальцами играют аккорд-пэд |
 
@@ -69,7 +69,7 @@ Strandlight спроектирован и создан под руководст
 
 <table>
   <tr>
-    <td><img src="docs/assets/seal.svg" width="140" alt="Печать Khoshimov Shukhratbek" /></td>
+    <td><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/seal-dark.svg" /><img src="docs/assets/seal-light.svg" width="140" alt="Печать Khoshimov Shukhratbek" /></picture></td>
     <td>
       <b>Khoshimov Shukhratbek</b> «Bruce»<br />
       AI Agentic Software Engineer<br />

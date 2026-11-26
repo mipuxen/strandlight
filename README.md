@@ -21,15 +21,15 @@ English · [O'zbekcha](README.uz.md) · [한국어](README.ko.md) · [Русск
 
 Most "air harps" give you strings that are already there. In Strandlight **you build the instrument yourself**: pinch your thumb and index finger, pull, and let go — a glowing string stays exactly where you left it. Its **length decides its voice**: short strings ring like glass, medium ones like a harp, long ones like a bass. Then sweep a finger across them to play.
 
-| Gesture                       | What happens                                                      |
-| ----------------------------- | ----------------------------------------------------------------- |
-| Pinch → pull → release        | A new string freezes in the air                                   |
-| Index finger crosses a string | It plays. Faster is louder                                        |
-| Quick flick                   | Sparks race along the nearest string                              |
-| Pinch the end of a string     | Move or stretch it, with smooth pitch bend _(Musician, Virtuoso)_ |
-| Fist                          | Everything goes quiet                                             |
-| Open palm for 1 s             | Sustain and reverb bloom _(Musician, Virtuoso)_                   |
-| Both hands in view            | Five living threads between your fingertips play a pad chord      |
+| Gesture                           | What happens                                                      |
+| --------------------------------- | ----------------------------------------------------------------- |
+| Pinch → pull → release            | A new string freezes in the air                                   |
+| Index finger crosses a string     | It plays. Faster is louder                                        |
+| Quick flick                       | Sparks race along the nearest string                              |
+| Pinch the end of a string         | Move or stretch it, with smooth pitch bend _(Musician, Virtuoso)_ |
+| V sign (index + middle), hold ½ s | Everything goes quiet                                             |
+| Open palm for 1 s                 | Sustain and reverb bloom _(Musician, Virtuoso)_                   |
+| Both hands in view                | Five living threads between your fingertips play a pad chord      |
 
 No camera? Touch and mouse work too: **press and hold, then drag** to draw; **swipe** to play.
 
@@ -98,7 +98,7 @@ Translations, new scales and bug reports are very welcome — see [CONTRIBUTING.
 
 <table>
   <tr>
-    <td><img src="docs/assets/seal.svg" width="140" alt="Seal of Khoshimov Shukhratbek" /></td>
+    <td><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/seal-dark.svg" /><img src="docs/assets/seal-light.svg" width="140" alt="Seal of Khoshimov Shukhratbek" /></picture></td>
     <td>
       <b>Khoshimov Shukhratbek</b> "Bruce"<br />
       AI Agentic Software Engineer<br />

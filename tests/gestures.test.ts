@@ -54,14 +54,35 @@ describe('pinch', () => {
   });
 });
 
-describe('fist', () => {
-  it('emits once when all fingertips fold toward the wrist', () => {
+describe('V sign mute', () => {
+  /** Index and middle up and apart; ring and pinky folded back toward the wrist. */
+  function vSign(): Hand {
+    const h = hand(0.15);
+    const pts = h.points;
+    pts[6] = { x: 0.47, y: 0.42 };
+    pts[8] = { x: 0.44, y: 0.32 };
+    pts[10] = { x: 0.52, y: 0.42 };
+    pts[12] = { x: 0.55, y: 0.32 };
+    pts[14] = { x: 0.53, y: 0.46 };
+    pts[16] = { x: 0.53, y: 0.52 };
+    pts[18] = { x: 0.55, y: 0.48 };
+    pts[20] = { x: 0.55, y: 0.53 };
+    return h;
+  }
+
+  it('mutes once after being held for half a second', () => {
     const g = new GestureEngine();
-    const h = hand(0.1);
-    const wrist = h.points[0] as Vec2;
-    for (const i of [8, 12, 16, 20]) h.points[i] = { x: wrist.x, y: wrist.y - 0.05 };
-    h.points[4] = { x: wrist.x + 0.1, y: wrist.y - 0.05 };
-    expect(g.update([h], 0, 1).filter((e) => e.type === 'fist')).toHaveLength(1);
-    expect(g.update([h], 16, 1).filter((e) => e.type === 'fist')).toHaveLength(0);
+    const types = (t: number) => g.update([vSign()], t, 1).map((e) => e.type);
+    expect(types(0)).not.toContain('mute');
+    expect(types(300)).not.toContain('mute');
+    expect(types(520)).toContain('mute');
+    expect(types(700)).not.toContain('mute');
+  });
+
+  it('does not fire for an open hand or a pointing finger', () => {
+    const g = new GestureEngine();
+    for (let t = 0; t < 1000; t += 50) {
+      expect(g.update([hand(0.15)], t, 1).map((e) => e.type)).not.toContain('mute');
+    }
   });
 });

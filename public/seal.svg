@@ -1,26 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="180" height="180" role="img" aria-label="Seal of Khoshimov Shukhratbek">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="180" height="180" role="img" aria-label="KS seal">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FF4FD8"/>
-      <stop offset="0.5" stop-color="#7CF7FF"/>
-      <stop offset="1" stop-color="#FFC857"/>
-    </linearGradient>
-    <path id="top" d="M 32 120 A 88 88 0 0 1 208 120"/>
+    <path id="top" d="M 34 120 A 86 86 0 0 1 206 120"/>
     <path id="bottom" d="M 30 120 A 90 90 0 0 0 210 120"/>
   </defs>
-  <circle cx="120" cy="120" r="116" fill="#05060F"/>
-  <circle cx="120" cy="120" r="112" fill="none" stroke="url(#g)" stroke-width="3"/>
-  <circle cx="120" cy="120" r="70" fill="none" stroke="url(#g)" stroke-width="1.5" stroke-dasharray="2 5"/>
-  <text font-family="Sora, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" letter-spacing="2.6" fill="#EEF1FF">
+  <circle cx="120" cy="120" r="116" fill="#0D1117"/>
+  <circle cx="120" cy="120" r="112" fill="none" stroke="#F5F5F5" stroke-width="2"/>
+  <circle cx="120" cy="120" r="104" fill="none" stroke="#F5F5F5" stroke-width="0.75"/>
+  <circle cx="120" cy="120" r="68" fill="none" stroke="#F5F5F5" stroke-width="0.75"/>
+  <text font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="600" letter-spacing="3" fill="#F5F5F5">
     <textPath href="#top" startOffset="50%" text-anchor="middle">KHOSHIMOV SHUKHRATBEK</textPath>
   </text>
-  <text font-family="Sora, Helvetica, Arial, sans-serif" font-size="10.5" letter-spacing="2.2" fill="#EEF1FF" fill-opacity="0.75" dominant-baseline="hanging">
+  <text font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" letter-spacing="2.4" fill="#F5F5F5" fill-opacity="0.7" dominant-baseline="hanging">
     <textPath href="#bottom" startOffset="50%" text-anchor="middle">AI AGENTIC SOFTWARE ENGINEER</textPath>
   </text>
-  <path d="M 84 150 C 98 122, 110 104, 150 86" stroke="#FF4FD8" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/>
-  <path d="M 96 160 C 112 140, 124 126, 160 112" stroke="#7CF7FF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.8"/>
-  <text x="120" y="133" text-anchor="middle" font-family="Cormorant, Georgia, serif" font-size="46" font-weight="600" fill="#FFFFFF">KS</text>
-  <circle cx="120" cy="22" r="0" fill="none"/>
-  
-  <text x="120" y="172" text-anchor="middle" font-family="Sora, Helvetica, Arial, sans-serif" font-size="10" letter-spacing="3" fill="#FFC857">2026</text>
+  <text x="120" y="136" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="48" font-weight="400" fill="#F5F5F5">KS</text>
+  <line x1="98" y1="150" x2="142" y2="150" stroke="#F5F5F5" stroke-width="0.75"/>
+  <text x="120" y="166" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9" letter-spacing="3" fill="#F5F5F5" fill-opacity="0.7">MMXXVI</text>
 </svg>
