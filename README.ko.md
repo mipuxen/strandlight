@@ -71,7 +71,7 @@ Strandlight는 **Khoshimov Shukhratbek**이 기획하고 주도했으며, **[Cla
   <tr>
     <td><img src="docs/assets/seal.svg" width="140" alt="Khoshimov Shukhratbek의 인장" /></td>
     <td>
-      <b>Khoshimov Shukhratbek (코시모프 슈크라트벡)</b><br />
+      <b>Khoshimov Shukhratbek (코시모프 슈크라트벡)</b> "Bruce"<br />
       AI Agentic Software Engineer<br />
       콘셉트, 스펙, 제품 방향, 리뷰, 릴리스<br />
       <a href="https://github.com/mipuxen">github.com/mipuxen</a>

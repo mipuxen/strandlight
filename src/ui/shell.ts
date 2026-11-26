@@ -34,16 +34,8 @@ export interface ShellActions {
 
 const REPO_URL = 'https://github.com/mipuxen/strandlight';
 export const AUTHOR = 'Khoshimov Shukhratbek';
+export const AUTHOR_ALIAS = 'Bruce';
 const AUTHOR_URL = 'https://github.com/mipuxen';
-
-/** The author's signature, shown on the start screen and in settings. */
-const signature = () =>
-  el(
-    'a',
-    { class: 'signature', href: AUTHOR_URL, target: '_blank', rel: 'noopener noreferrer' },
-    el('span', { class: 'signature-mark', text: 'KS', 'aria-hidden': 'true' }),
-    el('span', { text: t('app.author', { name: AUTHOR }) }),
-  );
 
 /** All DOM chrome around the stage. Rebuilt on language or mode change. */
 export class Shell {
@@ -53,6 +45,7 @@ export class Shell {
   private toolbar: HTMLElement;
   private panel: HTMLElement;
   private help: HTMLElement;
+  private about: HTMLElement;
   private looperRow: HTMLElement;
   private recBadge: HTMLElement;
   private countdown: HTMLElement;
@@ -73,6 +66,7 @@ export class Shell {
     this.toolbar = el('nav', { class: 'toolbar', hidden: true });
     this.panel = el('aside', { class: 'panel', hidden: true, 'aria-label': 'Settings' });
     this.help = el('div', { class: 'modal', hidden: true, role: 'dialog', 'aria-modal': 'true' });
+    this.about = el('div', { class: 'modal', hidden: true, role: 'dialog', 'aria-modal': 'true' });
     this.looperRow = el('div', { class: 'looper-row', hidden: true });
     this.recBadge = el('div', { class: 'rec-badge', hidden: true });
     this.countdown = el('div', { class: 'countdown', hidden: true });
@@ -85,6 +79,7 @@ export class Shell {
       this.toolbar,
       this.panel,
       this.help,
+      this.about,
       this.recBadge,
       this.countdown,
     );
@@ -163,7 +158,7 @@ export class Shell {
         rel: 'noopener noreferrer',
         text: t('app.source'),
       }),
-      signature(),
+      this.signature(),
     );
   }
 
@@ -468,7 +463,7 @@ export class Shell {
         rel: 'noopener noreferrer',
         text: t('app.source'),
       }),
-      signature(),
+      this.signature(),
     );
 
     this.panel.replaceChildren(
@@ -519,6 +514,65 @@ export class Shell {
         el('code', { text: 'npx strandlight-bridge' }),
       ),
     );
+  }
+
+  /** The author's signature, shown on the start screen and in settings. Opens About. */
+  private signature(): HTMLElement {
+    const b = el(
+      'button',
+      { class: 'signature', type: 'button', 'aria-label': t('about.open') },
+      el('span', { class: 'signature-mark', text: 'KS', 'aria-hidden': 'true' }),
+      el('span', { text: t('app.author', { name: `${AUTHOR} "${AUTHOR_ALIAS}"` }) }),
+    );
+    b.addEventListener('click', () => this.openAbout());
+    return b;
+  }
+
+  openAbout(): void {
+    const close = el('button', { type: 'button', class: 'btn btn-primary', text: t('help.close') });
+    close.addEventListener('click', () => this.closeAbout());
+    const link = (href: string, text: string) =>
+      el('a', { class: 'btn btn-small', href, target: '_blank', rel: 'noopener noreferrer', text });
+    this.about.replaceChildren(
+      el(
+        'div',
+        { class: 'modal-card about-card' },
+        el('img', {
+          class: 'about-seal',
+          src: './seal.svg',
+          alt: `${AUTHOR} seal`,
+          width: 132,
+          height: 132,
+        }),
+        el('p', { class: 'field-label', text: t('about.title') }),
+        el(
+          'h2',
+          { class: 'about-name' },
+          el('span', { text: AUTHOR }),
+          el('span', { class: 'about-alias', text: ` "${AUTHOR_ALIAS}"` }),
+        ),
+        el('p', { class: 'about-role', text: t('about.role') }),
+        el('p', { text: t('about.bio') }),
+        el('p', { class: 'about-muted', text: t('about.project') }),
+        el('p', { class: 'about-muted', text: t('about.built') }),
+        el(
+          'div',
+          { class: 'inline wrap about-links' },
+          link(AUTHOR_URL, `${t('about.github')} · @mipuxen`),
+          link(REPO_URL, t('about.repo')),
+        ),
+        close,
+      ),
+    );
+    this.about.onclick = (e) => {
+      if (e.target === this.about) this.closeAbout();
+    };
+    this.about.hidden = false;
+    close.focus();
+  }
+
+  closeAbout(): void {
+    this.about.hidden = true;
   }
 
   openHelp(): void {

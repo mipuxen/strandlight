@@ -807,6 +807,7 @@ export class App {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key === 'Escape') {
         this.shell.closeHelp();
+        this.shell.closeAbout();
         this.shell.togglePanel(false);
         return;
       }

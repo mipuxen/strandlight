@@ -71,7 +71,7 @@ Strandlight спроектирован и создан под руководст
   <tr>
     <td><img src="docs/assets/seal.svg" width="140" alt="Печать Khoshimov Shukhratbek" /></td>
     <td>
-      <b>Khoshimov Shukhratbek</b><br />
+      <b>Khoshimov Shukhratbek</b> «Bruce»<br />
       AI Agentic Software Engineer<br />
       Концепция, спецификация, продукт, ревью и релиз<br />
       <a href="https://github.com/mipuxen">github.com/mipuxen</a>

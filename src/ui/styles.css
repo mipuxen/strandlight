@@ -803,6 +803,11 @@ code {
 /* ───────── author signature */
 
 .signature {
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -835,4 +840,53 @@ code {
 
 .panel .signature {
   margin-top: 4px;
+}
+
+/* ───────── about the author */
+
+.about-card {
+  text-align: center;
+  max-width: 460px;
+}
+
+.about-card p {
+  line-height: 1.6;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.about-seal {
+  display: block;
+  margin: 0 auto 14px;
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 35%, transparent));
+}
+
+.about-name {
+  margin: 4px 0 2px !important;
+  font-size: 26px;
+}
+
+.about-alias {
+  color: var(--accent-2);
+}
+
+.about-role {
+  color: var(--accent-3);
+  letter-spacing: 0.08em;
+  font-size: 12px !important;
+  text-transform: uppercase;
+}
+
+.about-muted {
+  color: var(--muted);
+}
+
+.about-links {
+  justify-content: center;
+  margin: 6px 0 4px;
+}
+
+.about-links a {
+  text-decoration: none;
+  color: var(--fg);
 }

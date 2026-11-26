@@ -13,7 +13,7 @@ import { initLocale } from './i18n/i18n';
 
 // A signature for anyone who opens the developer tools.
 console.log(
-  '%cStrandlight%c\nDesigned & built by Khoshimov Shukhratbek — AI Agentic Software Engineer\nhttps://github.com/mipuxen/strandlight',
+  '%cStrandlight%c\nDesigned & built by Khoshimov Shukhratbek "Bruce" — AI Agentic Software Engineer\nhttps://github.com/mipuxen/strandlight',
   'font: 600 22px Sora, sans-serif; color: #ff4fd8; text-shadow: 0 0 12px #ff4fd8;',
   'font: 12px Sora, sans-serif; color: #7cf7ff;',
 );

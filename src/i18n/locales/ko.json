@@ -113,5 +113,13 @@
   "help.keyClear": "C 지우기 · V 카메라 배경",
   "help.keyLoop": "Space 루퍼 · H 도움말",
   "help.close": "알겠어요",
-  "app.author": "기획·개발 {name}"
+  "app.author": "기획·개발 {name}",
+  "about.open": "만든 사람 소개",
+  "about.title": "소개",
+  "about.role": "AI Agentic Software Engineer",
+  "about.bio": "AI 에이전트와 함께 제품을 설계하고 만듭니다. 스펙이 먼저, 모든 결정에는 이유가, 모든 코드는 리뷰를, 보안은 첫날부터.",
+  "about.project": "Strandlight는 한 가지 질문에서 시작했습니다. 두 손만으로 빛으로 된 악기를 만들 수 있다면? 모든 것이 브라우저 안에서 실행되고, 카메라 영상은 기기 밖으로 나가지 않습니다.",
+  "about.built": "Claude(Anthropic)를 AI 페어 프로그래머로 삼아 만들었습니다. 스펙 작성, 결정, 모든 단계의 리뷰는 제가 직접 했습니다.",
+  "about.github": "GitHub 프로필",
+  "about.repo": "소스 코드"
 }

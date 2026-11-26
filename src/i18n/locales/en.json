@@ -113,5 +113,13 @@
   "help.keyClear": "C clear · V camera background",
   "help.keyLoop": "Space looper · H help",
   "help.close": "Got it",
-  "app.author": "Designed & built by {name}"
+  "app.author": "Designed & built by {name}",
+  "about.open": "About the author",
+  "about.title": "About",
+  "about.role": "AI Agentic Software Engineer",
+  "about.bio": "I design products and build them with AI agents: spec first, decisions with reasons, every line reviewed, security from day one.",
+  "about.project": "Strandlight started with one question: what if you could build an instrument out of light, with nothing but your hands? It runs entirely in your browser, and your camera never leaves your device.",
+  "about.built": "Built with Claude (Anthropic) as an AI pair-programmer. I wrote the spec, made the decisions and reviewed every stage.",
+  "about.github": "GitHub profile",
+  "about.repo": "Source code"
 }

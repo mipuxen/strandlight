@@ -100,7 +100,7 @@ Translations, new scales and bug reports are very welcome — see [CONTRIBUTING.
   <tr>
     <td><img src="docs/assets/seal.svg" width="140" alt="Seal of Khoshimov Shukhratbek" /></td>
     <td>
-      <b>Khoshimov Shukhratbek</b><br />
+      <b>Khoshimov Shukhratbek</b> "Bruce"<br />
       AI Agentic Software Engineer<br />
       Concept, spec, product direction, review and release of Strandlight<br />
       <a href="https://github.com/mipuxen">github.com/mipuxen</a>
