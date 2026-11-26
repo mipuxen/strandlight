@@ -1,0 +1,27 @@
+{
+  "name": "strandlight-bridge",
+  "version": "0.1.0",
+  "description": "Forwards Strandlight's browser messages to OSC over UDP (for TouchDesigner, Max, Ableton and friends).",
+  "type": "module",
+  "bin": {
+    "strandlight-bridge": "./index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "osc.mjs",
+    "README.md"
+  ],
+  "license": "MIT",
+  "author": "Khoshimov Shukhratbek",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mipuxen/strandlight.git",
+    "directory": "packages/bridge"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
