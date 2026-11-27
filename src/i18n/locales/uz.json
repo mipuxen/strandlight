@@ -150,5 +150,9 @@
   "help.tip3": "Oddiy, bir xil fon kuzatuvga yordam beradi.",
   "help.tip4": "Kamera yo'qmi? Bosib turing, keyin torting — tor chiziladi. Surib o'ting — chalinadi.",
   "help.card.mute.title": "Jim qilish",
-  "help.card.mute.text": "Ko'rsatkich va o'rta barmoq bilan V belgisini qilib, yarim soniya ushlab turing."
+  "help.card.mute.text": "Ko'rsatkich va o'rta barmoq bilan V belgisini qilib, yarim soniya ushlab turing.",
+  "hint.noHand": "Qo'lingiz hali ko'rinmayapti. Yorug'likni oshiring, qo'lni kameradan 40–60 sm uzoqda tuting va ochiq kaftni ko'rsating.",
+  "inapp.text": "Strandlight ilova ichida ochildi. Qo'l kuzatuvi ishlashi uchun uni Chrome yoki Safari'da oching.",
+  "inapp.open": "Brauzerda ochish",
+  "inapp.copy": "Linkni nusxalash"
 }

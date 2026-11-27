@@ -20,3 +20,30 @@ describe('MIDI messages', () => {
     expect(cc(0, 1, 0.5)).toEqual([0xb0, 1, 64]);
   });
 });
+
+import { externalBrowserUrl, inAppBrowser } from '../src/core/platform';
+
+describe('in-app browsers', () => {
+  const kakao =
+    'Mozilla/5.0 (Linux; Android 14; SM-S921N Build/UP1A; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0 Mobile Safari/537.36 KAKAOTALK 10.9.0';
+  it('detects KakaoTalk and opens the page in the system browser', () => {
+    expect(inAppBrowser(kakao)).toBe('kakaotalk');
+    expect(externalBrowserUrl('https://mipuxen.github.io/strandlight/', 'kakaotalk')).toBe(
+      'kakaotalk://web/openExternal?url=https%3A%2F%2Fmipuxen.github.io%2Fstrandlight%2F',
+    );
+  });
+
+  it('uses a Chrome intent for other Android in-app browsers', () => {
+    expect(externalBrowserUrl('https://mipuxen.github.io/strandlight/', 'instagram', true)).toBe(
+      'intent://mipuxen.github.io/strandlight/#Intent;scheme=https;package=com.android.chrome;end',
+    );
+  });
+
+  it('ignores normal browsers', () => {
+    expect(
+      inAppBrowser(
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/131.0 Safari/537.36',
+      ),
+    ).toBeNull();
+  });
+});

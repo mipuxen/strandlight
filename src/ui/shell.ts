@@ -7,6 +7,7 @@ import type { Mode } from '../core/music/mapping';
 import type { RecordSource } from '../core/record/recorder';
 import type { ScaleChoice, Settings } from '../settings';
 import { el, icon } from './dom';
+import { toast } from './toast';
 import { animate, SceneView } from './ghost/scene-view';
 import type { SceneId } from './ghost/scenes';
 
@@ -575,6 +576,38 @@ export class Shell {
 
   closeAbout(): void {
     this.about.hidden = true;
+  }
+
+  /** Shown inside KakaoTalk, Instagram and other in-app browsers. */
+  showInAppBanner(externalUrl: string | null): void {
+    const banner = el('div', { class: 'inapp-banner', role: 'status' });
+    const render = () => {
+      const action = el('button', {
+        type: 'button',
+        class: 'btn btn-primary btn-small',
+        text: externalUrl ? t('inapp.open') : t('inapp.copy'),
+      });
+      action.addEventListener('click', () => {
+        if (externalUrl) window.location.href = externalUrl;
+        else
+          void navigator.clipboard
+            ?.writeText(window.location.href)
+            .then(() => toast(t('toast.linkCopied')));
+      });
+      const close = el(
+        'button',
+        { type: 'button', class: 'icon-btn inapp-x', 'aria-label': t('help.close') },
+        icon('close'),
+      );
+      close.addEventListener('click', () => banner.remove());
+      banner.replaceChildren(
+        el('p', { text: t('inapp.text') }),
+        el('div', { class: 'inline' }, action, close),
+      );
+    };
+    render();
+    onLocaleChange(render);
+    this.root.append(banner);
   }
 
   openHelp(): void {

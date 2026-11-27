@@ -44,7 +44,7 @@ No camera? Touch and mouse work too: **press and hold, then drag** to draw; **sw
 - **Recording** of the scene, the camera or the whole screen as MP4 (or WebM), straight to your downloads. Audio comes directly from the instrument, so no microphone is needed.
 - **Web MIDI** out (one channel per timbre, string tension on CC 1) and **OSC** through the tiny [`strandlight-bridge`](packages/bridge) for TouchDesigner, Max and Ableton.
 - **Three themes:** Neon Cosmos, Golden Harp, White Silk. WebGL2 bloom with a Canvas 2D fallback for light mode.
-- **12 languages**, picked from your browser settings. English, O'zbekcha, 한국어 and Русский are complete (100%, enforced in CI); Español, 中文, 日本語, Deutsch, Français, Português, Türkçe and العربية (with RTL) are about 20% translated, covering the main screens, and fall back to English for the rest. Help is welcome.
+- **13 languages**, picked from your browser settings. English, O'zbekcha, 한국어 and Русский are complete (100%, enforced in CI), and so is Tiếng Việt; Español, 中文, 日本語, Deutsch, Français, Português, Türkçe and العربية (with RTL) are about 20% translated, covering the main screens, and fall back to English for the rest. Help is welcome.
 - **Interactive guide with a life-size ghost hand** in 6 steps (show, pinch, pull, release, pluck, flick), each with a tip if you get stuck. Afterwards it shrinks to a small "How to play" dock, and **H** opens illustrated help cards for every gesture, the length-to-sound map, keys and tips.
 
 ## Privacy by design

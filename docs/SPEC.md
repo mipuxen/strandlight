@@ -15,25 +15,25 @@ Strandlight is an instrument that runs in the browser: in front of a webcam, the
 
 ## Decisions
 
-| Topic         | Decision                                                                                     | Status                               |
-| ------------- | -------------------------------------------------------------------------------------------- | ------------------------------------ |
-| Name, license | Strandlight, MIT                                                                             | ✅                                   |
-| Stack         | Vite + TypeScript, no framework                                                              | ✅                                   |
-| Architecture  | Serverless core + optional cloud (Supabase)                                                  | ✅ core · ⏳ cloud                   |
-| Sound         | 3 timbres by length: short = Crystal, medium = Harp, long = Bass                             | ✅                                   |
-| Difficulty    | Beginner (default), Musician, Virtuoso                                                       | ✅                                   |
-| Gestures      | Pinch to draw, pluck, flick, grab to stretch, V sign = mute, palm = sustain, two hands = pad | ✅                                   |
-| Music tools   | Looper, metronome/BPM, scene saving, video recording                                         | ✅                                   |
-| MIDI/OSC      | Web MIDI + optional `strandlight-bridge` (OSC)                                               | ✅ (bridge not yet on npm)           |
-| Design        | 3 themes: Neon Cosmos, Golden Harp, White Silk                                               | ✅                                   |
-| Guide         | Interactive ghost hand, short and beautiful                                                  | ✅                                   |
-| Languages     | Auto-detect + manual switch. Full: EN, UZ, KO, RU. Extra: ES, ZH, JA, DE, FR, PT, TR, AR     | ✅ tier 1 · 🟡 tier 2 (main screens) |
-| Sign-in       | Google only, no passwords stored                                                             | ⏳                                   |
-| Video         | Downloaded on device; signed-in users can email themselves a 7-day link                      | ✅ download · ⏳ email               |
-| Admin         | Masked emails, anonymous analytics, exit survey, private feedback                            | ⏳                                   |
-| Showcase      | 1 video per user (60 s, 50 MB), admin-approved, comments                                     | ⏳                                   |
-| Mobile        | Light mode + touch input without a camera                                                    | ✅                                   |
-| Deploy        | GitHub Pages: core demo. Vercel: full official site                                          | ✅ Pages · ⏳ Vercel                 |
+| Topic         | Decision                                                                                                | Status                               |
+| ------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| Name, license | Strandlight, MIT                                                                                        | ✅                                   |
+| Stack         | Vite + TypeScript, no framework                                                                         | ✅                                   |
+| Architecture  | Serverless core + optional cloud (Supabase)                                                             | ✅ core · ⏳ cloud                   |
+| Sound         | 3 timbres by length: short = Crystal, medium = Harp, long = Bass                                        | ✅                                   |
+| Difficulty    | Beginner (default), Musician, Virtuoso                                                                  | ✅                                   |
+| Gestures      | Pinch to draw, pluck, flick, grab to stretch, V sign = mute, palm = sustain, two hands = pad            | ✅                                   |
+| Music tools   | Looper, metronome/BPM, scene saving, video recording                                                    | ✅                                   |
+| MIDI/OSC      | Web MIDI + optional `strandlight-bridge` (OSC)                                                          | ✅ (bridge not yet on npm)           |
+| Design        | 3 themes: Neon Cosmos, Golden Harp, White Silk                                                          | ✅                                   |
+| Guide         | Interactive ghost hand, short and beautiful                                                             | ✅                                   |
+| Languages     | Auto-detect + manual switch. Full: EN, UZ, KO, RU. Extra: VI (complete), ES, ZH, JA, DE, FR, PT, TR, AR | ✅ tier 1 · 🟡 tier 2 (main screens) |
+| Sign-in       | Google only, no passwords stored                                                                        | ⏳                                   |
+| Video         | Downloaded on device; signed-in users can email themselves a 7-day link                                 | ✅ download · ⏳ email               |
+| Admin         | Masked emails, anonymous analytics, exit survey, private feedback                                       | ⏳                                   |
+| Showcase      | 1 video per user (60 s, 50 MB), admin-approved, comments                                                | ⏳                                   |
+| Mobile        | Light mode + touch input without a camera                                                               | ✅                                   |
+| Deploy        | GitHub Pages: core demo. Vercel: full official site                                                     | ✅ Pages · ⏳ Vercel                 |
 
 ## Instrument: strings and gestures
 
@@ -100,7 +100,7 @@ The screen is a dark stage; light comes only from the strings. The interface sit
 The language is chosen from `navigator.languages` — never from IP or location — and can always be changed from the top-right menu; the choice is remembered. ✅
 
 - Tier 1, reviewed by hand: English, O'zbekcha (Latin), 한국어, Русский. ✅
-- Tier 2, community-improved: Español, 中文 (简体), 日本語, Deutsch, Français, Português, Türkçe, العربية (full RTL). 🟡 main screens translated, the rest falls back to English.
+- Tier 2, community-improved: Tiếng Việt (complete), Español, 中文 (简体), 日本語, Deutsch, Français, Português, Türkçe, العربية (full RTL). 🟡 main screens translated, the rest falls back to English.
 - Any other language opens in English. Adding one = adding `src/i18n/locales/<code>.json` (see CONTRIBUTING). ✅
 - ICU message format for numbers and plurals; CI checks that tier-1 locales have every key. ✅
 - README in EN, UZ, KO and RU. ✅

@@ -150,5 +150,9 @@
   "help.tip3": "A plain background helps the tracking.",
   "help.tip4": "No camera? Press and hold, then drag to draw. Swipe to play.",
   "help.card.mute.title": "Mute",
-  "help.card.mute.text": "Make a V with your index and middle finger and hold it for half a second."
+  "help.card.mute.text": "Make a V with your index and middle finger and hold it for half a second.",
+  "hint.noHand": "Can't see your hand yet. Turn on more light, keep your hand 40–60 cm from the camera, and show your open palm.",
+  "inapp.text": "You opened Strandlight inside an app. For hand tracking to work, open it in Chrome or Safari.",
+  "inapp.open": "Open in browser",
+  "inapp.copy": "Copy link"
 }

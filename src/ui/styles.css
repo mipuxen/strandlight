@@ -1170,3 +1170,68 @@ kbd {
     width: 160px;
   }
 }
+
+/* ───────── in-app browser notice */
+
+.inapp-banner {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  width: min(520px, calc(100vw - 24px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px 12px 16px;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--accent-3);
+  backdrop-filter: blur(16px);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.inapp-banner p {
+  margin: 0;
+}
+
+.inapp-banner .btn-primary {
+  white-space: nowrap;
+}
+
+.inapp-x {
+  width: 32px;
+  height: 32px;
+}
+
+/* ───────── narrow phones */
+
+@media (max-width: 560px) {
+  .inapp-banner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .inapp-banner .inline {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .topbar {
+    left: 14px;
+    right: 14px;
+  }
+  .wordmark {
+    letter-spacing: 0.1em;
+    font-size: 11px;
+  }
+  .lang {
+    padding: 4px 8px;
+  }
+  .lang-select {
+    max-width: 116px;
+  }
+}

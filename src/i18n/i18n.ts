@@ -17,6 +17,7 @@ export const LOCALES: LocaleInfo[] = [
   { code: 'uz', name: "O'zbekcha", tier: 1 },
   { code: 'ko', name: '한국어', tier: 1 },
   { code: 'ru', name: 'Русский', tier: 1 },
+  { code: 'vi', name: 'Tiếng Việt', tier: 2 },
   { code: 'es', name: 'Español', tier: 2 },
   { code: 'zh', name: '中文 (简体)', tier: 2 },
   { code: 'ja', name: '日本語', tier: 2 },

@@ -27,6 +27,7 @@ import {
 import { StrandField } from './core/strings/field';
 import type { Strand } from './core/strings/strand';
 import { Tracker } from './core/tracking/tracker';
+import { externalBrowserUrl, inAppBrowser, isAndroid } from './core/platform';
 import { FINGER_TIPS, LM, type RawHand } from './core/tracking/types';
 import { onLocaleChange, t } from './i18n/i18n';
 import { loadSettings, saveSettings, type Settings } from './settings';
@@ -73,6 +74,10 @@ export class App {
   private lastMuteToast = 0;
   /** 0..1 while the V sign is being held, shown as a ring around the fingertips. */
   private muteProgress = 0;
+  /** When tracking became ready, and whether a hand has been seen since. */
+  private trackingReadyAt = 0;
+  private handSeen = false;
+  private noHandHintShown = false;
   private light: boolean;
 
   constructor(private host: HTMLElement) {
@@ -143,6 +148,10 @@ export class App {
     this.bindPointer();
     this.bindKeys();
     this.attractMode();
+    // iOS in-app browsers use Safari's engine and work well; Android WebViews often
+    // can't run hand tracking, so there we offer to reopen the page in Chrome.
+    const inApp = inAppBrowser();
+    if (inApp && isAndroid) this.shell.showInAppBanner(externalBrowserUrl(location.href, inApp));
     if (!hasGL2) toast(t('error.webgl'));
     requestAnimationFrame(this.frame);
   }
@@ -174,7 +183,11 @@ export class App {
           onHands: (h, time) => this.onHands(h, time),
           onStatus: (s) => {
             if (s === 'loading') this.shell.setStatus('status.model');
-            if (s === 'ready') this.shell.setStatus('status.ready');
+            if (s === 'ready') {
+              this.shell.setStatus('status.ready');
+              this.trackingReadyAt = performance.now();
+            }
+            if (s === 'error') this.fallbackToTouch('error.tracking');
           },
         });
         this.shell.setStatus('status.camera');
@@ -342,7 +355,11 @@ export class App {
     // Keep hands visible through short tracking gaps (≤ 200 ms).
     const kept = this.hands.filter((h) => !seen.has(h.key) && now - h.seenAt < 200);
     this.hands = [...hands, ...kept];
-    if (hands.length) this.signal('hand');
+    if (hands.length) {
+      this.signal('hand');
+      if (!this.handSeen) this.shell.setStatus(null);
+      this.handSeen = true;
+    }
     for (const e of this.gestures.update(hands, now, this.renderer.aspect)) this.onGesture(e, now);
   }
 
@@ -856,6 +873,17 @@ export class App {
     requestAnimationFrame(this.frame);
     const dt = Math.min(0.05, (now - this.lastFrame) / 1000);
     this.lastFrame = now;
+
+    // Tracking runs but has never found a hand: tell the player what usually helps.
+    if (
+      this.trackingReadyAt &&
+      !this.handSeen &&
+      !this.noHandHintShown &&
+      now - this.trackingReadyAt > 12000
+    ) {
+      this.noHandHintShown = true;
+      toast(t('hint.noHand'), 'info', 9000);
+    }
 
     this.metronome.tick(this.clock());
     this.looper.tick(this.beats());

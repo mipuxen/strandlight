@@ -1,3 +1,4 @@
+import { isAndroid } from '../platform';
 import type { FromWorker, RawHand } from './types';
 
 export interface TrackerOptions {
@@ -17,6 +18,7 @@ export class Tracker {
   readonly video = document.createElement('video');
   private worker: Worker | null = null;
   private busy = false;
+  private errors = 0;
   private running = false;
   private stream: MediaStream | null = null;
   private fallback: import('./detector').Detector | null = null;
@@ -49,7 +51,8 @@ export class Tracker {
       wasmBase: assetUrl('mediapipe'),
       modelUrl: assetUrl('models/hand_landmarker.task'),
       numHands: 2,
-      delegate: 'GPU' as const,
+      // Android GPUs (Chrome and WebViews) often hang on the GPU delegate: use the CPU there.
+      delegate: (isAndroid ? 'CPU' : 'GPU') as 'CPU' | 'GPU',
     };
 
     try {
@@ -71,7 +74,7 @@ export class Tracker {
     return new Promise((resolve, reject) => {
       const w = new Worker(new URL('./tracker.worker.ts', import.meta.url));
       this.worker = w;
-      const timeout = setTimeout(() => reject(new Error('worker timeout')), 20000);
+      const timeout = setTimeout(() => reject(new Error('worker timeout')), 25000);
       w.onerror = (e) => {
         clearTimeout(timeout);
         reject(new Error(e.message));
@@ -94,9 +97,12 @@ export class Tracker {
   private onWorker(msg: FromWorker): void {
     if (msg.type === 'result') {
       this.busy = false;
+      this.errors = 0;
       this.opts.onHands(msg.hands, msg.time);
     } else if (msg.type === 'error') {
       this.busy = false;
+      // Persistent per-frame errors mean tracking cannot work on this device.
+      if (++this.errors === 30) this.opts.onStatus('error', msg.message);
     }
   }
 

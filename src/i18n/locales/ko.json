@@ -150,5 +150,9 @@
   "help.tip3": "단순한 배경이 추적에 도움이 됩니다.",
   "help.tip4": "카메라가 없나요? 길게 누른 뒤 끌면 줄이 그려지고, 쓸면 연주됩니다.",
   "help.card.mute.title": "음소거",
-  "help.card.mute.text": "검지와 중지로 V를 만들고 0.5초간 유지하세요."
+  "help.card.mute.text": "검지와 중지로 V를 만들고 0.5초간 유지하세요.",
+  "hint.noHand": "아직 손이 보이지 않아요. 조명을 밝히고, 손을 카메라에서 40–60cm 떨어뜨려 펼친 손바닥을 보여 주세요.",
+  "inapp.text": "앱 안에서 Strandlight를 열었어요. 손 추적이 작동하려면 Chrome이나 Safari에서 열어 주세요.",
+  "inapp.open": "브라우저에서 열기",
+  "inapp.copy": "링크 복사"
 }
