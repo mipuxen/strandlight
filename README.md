@@ -86,20 +86,20 @@ This was agentic software engineering, and the human side of it was the engineer
 | ✅  | Hand tracking, gestures, string physics, note mapping         | Done, unit-tested                                          |
 | ✅  | Synthesized voices, reverb, delay, limiter                    | Done                                                       |
 | ✅  | Looper, metronome, scenes (device, JSON file, `#scene=` link) | Done, looper and scene encoding unit-tested                |
-| ✅  | Translations: English, O'zbekcha, 한국어, Русский             | Done, 100% checked in CI                                   |
+| ✅  | Translations: English, O'zbekcha, 한국어, Русский, Tiếng Việt | Done, 100% checked in CI                                   |
 | 🧪  | Translations: 8 other languages                               | About 20%, rest falls back to English                      |
 | 🧪  | Recording to MP4/WebM                                         | Done, format selection unit-tested; depends on the browser |
+| ✅  | Phones: Android (CPU tracking, in-app browser notice) and iOS | Done, tried on real devices — see Tested so far            |
 | 🧪  | Web MIDI out and OSC through `strandlight-bridge`             | Implemented, not yet tested against real MIDI/OSC gear     |
 | ⏳  | Optional cloud layer (sign-in, gallery, email)                | Not started — see Roadmap                                  |
 
 ## Tested so far
 
-**Automatically, on every pull request (CI):** ESLint and Prettier, the translation check (tier-1 languages must be 100%), 29 unit tests in 8 files (One Euro filter, gestures and pinch hysteresis, note mapping and scales, the string field, the looper, scene encoding and validation, ICU message formatting, recorder format choice), a TypeScript typecheck, a full production build that downloads the hand model and verifies its SHA-256, and a check that the main bundle stays under 200 KB. CodeQL (security-extended) scans every push.
+**Automatically, on every pull request (CI):** ESLint and Prettier, the translation check (tier-1 languages must be 100%), 32 unit tests in 8 files (One Euro filter, gestures and pinch hysteresis, note mapping and scales, the string field, the looper, scene encoding and validation, ICU message formatting, recorder format choice), a TypeScript typecheck, a full production build that downloads the hand model and verifies its SHA-256, and a check that the main bundle stays under 200 KB. CodeQL (security-extended) scans every push.
 
 **Not covered by automated tests:** the camera and hand tracking end to end, audio output, rendering and WebGL2 bloom, Web MIDI and OSC. There is no headless browser test yet.
 
-<!-- TODO(Bruce): list the browsers and devices you actually played it on, e.g.
-     "Played by the author on Chrome 1xx / macOS with the built-in camera". Only what really happened. -->
+**By hand, on real devices:** played by the author on a MacBook and an iPhone. On a Samsung Android phone (played by a friend), opening the link inside KakaoTalk showed the "Open in browser" notice, and the instrument worked after opening it in the phone's browser. Other browsers and devices have not been tried yet.
 
 **Security scanning:** CodeQL raised 5 alerts. Four were fixed in code. The fifth (`js/http-to-file-access` in `scripts/prepare-assets.mjs`) is a build-time download whose URL is a constant and whose bytes are written only after matching a pinned SHA-256; CodeQL cannot recognise a hash check as a sanitizer, so it was dismissed as a false positive with that reason written in the code.
 
