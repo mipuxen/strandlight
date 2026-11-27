@@ -154,5 +154,7 @@
   "hint.noHand": "Can't see your hand yet. Turn on more light, keep your hand 40–60 cm from the camera, and show your open palm.",
   "inapp.text": "You opened Strandlight inside an app. For hand tracking to work, open it in Chrome or Safari.",
   "inapp.open": "Open in browser",
-  "inapp.copy": "Copy link"
+  "inapp.copy": "Copy link",
+  "settings.cameraShow": "Show camera",
+  "settings.cameraBrightness": "Brightness"
 }

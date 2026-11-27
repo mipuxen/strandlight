@@ -154,5 +154,7 @@
   "hint.noHand": "Chưa thấy bàn tay của bạn. Hãy bật thêm đèn, giữ tay cách camera 40–60 cm và đưa lòng bàn tay mở ra.",
   "inapp.text": "Bạn đang mở Strandlight bên trong một ứng dụng. Để theo dõi bàn tay hoạt động, hãy mở bằng Chrome hoặc Safari.",
   "inapp.open": "Mở bằng trình duyệt",
-  "inapp.copy": "Sao chép liên kết"
+  "inapp.copy": "Sao chép liên kết",
+  "settings.cameraShow": "Hiện camera",
+  "settings.cameraBrightness": "Độ sáng"
 }

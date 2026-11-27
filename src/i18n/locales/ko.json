@@ -154,5 +154,7 @@
   "hint.noHand": "아직 손이 보이지 않아요. 조명을 밝히고, 손을 카메라에서 40–60cm 떨어뜨려 펼친 손바닥을 보여 주세요.",
   "inapp.text": "앱 안에서 Strandlight를 열었어요. 손 추적이 작동하려면 Chrome이나 Safari에서 열어 주세요.",
   "inapp.open": "브라우저에서 열기",
-  "inapp.copy": "링크 복사"
+  "inapp.copy": "링크 복사",
+  "settings.cameraShow": "카메라 표시",
+  "settings.cameraBrightness": "밝기"
 }

@@ -834,6 +834,7 @@ export class App {
       if (e.key === 'Escape') {
         this.shell.closeHelp();
         this.shell.closeAbout();
+        this.shell.toggleCameraPop(false);
         this.shell.togglePanel(false);
         return;
       }
@@ -912,6 +913,7 @@ export class App {
         tension: pad.tension,
         video: this.tracker?.video ?? null,
         showVideo: this.settings.showVideo,
+        videoBrightness: this.settings.videoBrightness,
         pulse: this.pulse,
         mute: (() => {
           const h = this.hands[0];

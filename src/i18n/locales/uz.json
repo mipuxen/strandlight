@@ -154,5 +154,7 @@
   "hint.noHand": "Qo'lingiz hali ko'rinmayapti. Yorug'likni oshiring, qo'lni kameradan 40–60 sm uzoqda tuting va ochiq kaftni ko'rsating.",
   "inapp.text": "Strandlight ilova ichida ochildi. Qo'l kuzatuvi ishlashi uchun uni Chrome yoki Safari'da oching.",
   "inapp.open": "Brauzerda ochish",
-  "inapp.copy": "Linkni nusxalash"
+  "inapp.copy": "Linkni nusxalash",
+  "settings.cameraShow": "Kamerani ko'rsatish",
+  "settings.cameraBrightness": "Yorqinlik"
 }

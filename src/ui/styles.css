@@ -1235,3 +1235,42 @@ kbd {
     max-width: 116px;
   }
 }
+
+/* ───────── camera background control */
+
+.cam-pop {
+  position: absolute;
+  left: 50%;
+  bottom: calc(max(18px, env(safe-area-inset-bottom)) + 74px);
+  transform: translateX(-50%);
+  z-index: 4;
+  width: min(340px, calc(100vw - 24px));
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  font-size: 14px;
+}
+
+.cam-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cam-x {
+  width: 30px;
+  height: 30px;
+}
+
+.cam-pop .inline input[type='range'] {
+  flex: 1;
+}
+
+.cam-label {
+  color: var(--muted);
+  font-size: 13px;
+}

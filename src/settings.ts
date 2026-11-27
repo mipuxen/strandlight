@@ -15,6 +15,8 @@ export interface Settings {
   velocity: boolean;
   volume: number;
   showVideo: boolean;
+  /** Camera background brightness, 0..1. */
+  videoBrightness: number;
   recordSource: RecordSource;
 }
 
@@ -29,6 +31,7 @@ export const DEFAULT_SETTINGS: Settings = {
   velocity: true,
   volume: 0.85,
   showVideo: true,
+  videoBrightness: 0.55,
   recordSource: 'scene',
 };
 

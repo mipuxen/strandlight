@@ -15,6 +15,7 @@ export interface FrameState {
   tension: number;
   video: HTMLVideoElement | null;
   showVideo: boolean;
+  videoBrightness: number;
   pulse: number; // 0..1 metronome pulse
   /** V-sign hold progress: a ring that fills before everything mutes. */
   mute: { at: Vec2; progress: number } | null;
@@ -89,13 +90,13 @@ export class Renderer {
     c.fillStyle = f.theme.background;
     c.fillRect(0, 0, W, H);
 
-    // Mirrored camera at 20% brightness, cover-fit.
-    if (f.showVideo && f.video && f.video.readyState >= 2) {
+    // Mirrored camera, cover-fit, at the brightness the player picked.
+    if (f.showVideo && f.videoBrightness > 0 && f.video && f.video.readyState >= 2) {
       const vw = f.video.videoWidth;
       const vh = f.video.videoHeight;
       const s = Math.max(W / vw, H / vh);
       c.save();
-      c.globalAlpha = 0.2;
+      c.globalAlpha = Math.min(1, Math.max(0, f.videoBrightness));
       c.translate(W, 0);
       c.scale(-1, 1);
       c.drawImage(f.video, (W - vw * s) / 2, (H - vh * s) / 2, vw * s, vh * s);

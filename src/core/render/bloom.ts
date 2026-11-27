@@ -9,7 +9,7 @@ void main(){ uv = p*0.5+0.5; gl_Position = vec4(p,0.,1.); }`;
 const BRIGHT = `#version 300 es
 precision mediump float; in vec2 uv; out vec4 o; uniform sampler2D t;
 void main(){ vec3 c = texture(t, uv).rgb; float l = max(c.r, max(c.g, c.b));
-  o = vec4(c * smoothstep(0.25, 0.9, l), 1.); }`;
+  o = vec4(c * smoothstep(0.62, 1.0, l), 1.); }`;
 
 const BLUR = `#version 300 es
 precision mediump float; in vec2 uv; out vec4 o; uniform sampler2D t; uniform vec2 d;

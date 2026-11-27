@@ -50,6 +50,7 @@ export class Shell {
   private help: HTMLElement;
   private about: HTMLElement;
   private stopHelpAnims: (() => void)[] = [];
+  private camPop: HTMLElement | null = null;
   private looperRow: HTMLElement;
   private recBadge: HTMLElement;
   private countdown: HTMLElement;
@@ -190,7 +191,7 @@ export class Shell {
       this.iconButton(
         'camera',
         'toolbar.camera',
-        () => this.actions.toggleVideo(),
+        () => this.toggleCameraPop(),
         s.showVideo ? 'on' : '',
       ),
     ];
@@ -576,6 +577,53 @@ export class Shell {
 
   closeAbout(): void {
     this.about.hidden = true;
+  }
+
+  /** Camera background: on/off and brightness, right above the toolbar. */
+  toggleCameraPop(force?: boolean): void {
+    const open = force ?? !this.camPop;
+    this.camPop?.remove();
+    this.camPop = null;
+    if (!open) return;
+    const s = this.settings();
+    const on = el('input', { type: 'checkbox', role: 'switch' });
+    on.checked = s.showVideo;
+    const pct = Math.round(s.videoBrightness * 100);
+    const range = el('input', {
+      type: 'range',
+      min: 0,
+      max: 100,
+      step: 1,
+      value: pct,
+      'aria-label': t('settings.cameraBrightness'),
+    });
+    const out = el('output', { text: `${pct}%` });
+    on.addEventListener('change', () => this.actions.update({ showVideo: on.checked }));
+    range.addEventListener('input', () => {
+      out.textContent = `${range.value}%`;
+      this.actions.update({ videoBrightness: Number(range.value) / 100, showVideo: true });
+      on.checked = true;
+    });
+    const close = el(
+      'button',
+      { type: 'button', class: 'icon-btn cam-x', 'aria-label': t('help.close') },
+      icon('close'),
+    );
+    close.addEventListener('click', () => this.toggleCameraPop(false));
+    this.camPop = el(
+      'div',
+      { class: 'cam-pop', role: 'dialog', 'aria-label': t('toolbar.camera') },
+      el('div', { class: 'cam-head' }, el('strong', { text: t('toolbar.camera') }), close),
+      el('label', { class: 'check' }, on, el('span', { text: t('settings.cameraShow') })),
+      el(
+        'div',
+        { class: 'inline' },
+        el('span', { class: 'cam-label', text: t('settings.cameraBrightness') }),
+        range,
+        out,
+      ),
+    );
+    this.root.append(this.camPop);
   }
 
   /** Shown inside KakaoTalk, Instagram and other in-app browsers. */
