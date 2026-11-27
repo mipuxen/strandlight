@@ -65,6 +65,10 @@ if (cached && matches(cached)) {
       );
       failed = true;
     } else {
+      // CodeQL js/http-to-file-access flags this write because the bytes come from the
+      // network. It is intentional: the URL is a constant and the bytes have just matched
+      // the pinned SHA-256, which CodeQL cannot see as a sanitizer. Alert dismissed as a
+      // false positive with this reason; see SECURITY.md.
       mkdirSync(dirname(modelDest), { recursive: true });
       writeFileSync(modelDest, buf, { mode: 0o644 });
       console.log(`✔ ${MODEL_NAME} downloaded and verified`);

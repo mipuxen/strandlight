@@ -44,7 +44,7 @@ No camera? Touch and mouse work too: **press and hold, then drag** to draw; **sw
 - **Recording** of the scene, the camera or the whole screen as MP4 (or WebM), straight to your downloads. Audio comes directly from the instrument, so no microphone is needed.
 - **Web MIDI** out (one channel per timbre, string tension on CC 1) and **OSC** through the tiny [`strandlight-bridge`](packages/bridge) for TouchDesigner, Max and Ableton.
 - **Three themes:** Neon Cosmos, Golden Harp, White Silk. WebGL2 bloom with a Canvas 2D fallback for light mode.
-- **12 languages**, picked from your browser settings. English, O'zbekcha, 한국어 and Русский are complete and reviewed; Español, 中文, 日本語, Deutsch, Français, Português, Türkçe and العربية (with RTL) cover the main screens and grow with community help.
+- **12 languages**, picked from your browser settings. English, O'zbekcha, 한국어 and Русский are complete (100%, enforced in CI); Español, 中文, 日本語, Deutsch, Français, Português, Türkçe and العربية (with RTL) are about 20% translated, covering the main screens, and fall back to English for the rest. Help is welcome.
 - **Interactive guide with a life-size ghost hand** in 6 steps (show, pinch, pull, release, pluck, flick), each with a tip if you get stuck. Afterwards it shrinks to a small "How to play" dock, and **H** opens illustrated help cards for every gesture, the length-to-sound map, keys and tips.
 
 ## Privacy by design
@@ -77,7 +77,49 @@ This was agentic software engineering, and the human side of it was the engineer
 2. **Decisions with reasons.** Framework-free Vite + TypeScript to keep the bundle under 200 KB; tracking in a Web Worker so audio and rendering never stutter; sound synthesized instead of sampled so the repo is light and license-clean; a serverless core so anyone can run it from GitHub.
 3. **Review at every stage.** Each part was read, questioned and approved before moving on, with a short "what and why" note so the reasoning can be explained line by line.
 4. **Security as a requirement, not an afterthought.** Self-hosted, hash-pinned assets; CSP; `textContent`-only rendering enforced by a lint rule; validation of every scene file and link; a localhost-only, origin-checked OSC bridge; CodeQL, Dependabot and actions pinned by commit SHA.
-5. **Verified, not assumed.** Unit tests cover the One Euro filter, pinch hysteresis, note mapping, the looper, scene encoding and i18n; the build runs in a headless browser smoke test; CI blocks merges on lint, tests, translations and the bundle budget.
+5. **Verified, not assumed.** Unit tests cover the One Euro filter, pinch hysteresis, note mapping, the looper, scene encoding and i18n; CI blocks merges on lint, formatting, tests, translations, a full build with the verified hand model, and the bundle budget. What has and has not been checked is listed honestly in [Tested so far](#tested-so-far).
+
+## Status
+
+|     | Part                                                          | State                                                      |
+| --- | ------------------------------------------------------------- | ---------------------------------------------------------- |
+| ✅  | Hand tracking, gestures, string physics, note mapping         | Done, unit-tested                                          |
+| ✅  | Synthesized voices, reverb, delay, limiter                    | Done                                                       |
+| ✅  | Looper, metronome, scenes (device, JSON file, `#scene=` link) | Done, looper and scene encoding unit-tested                |
+| ✅  | Translations: English, O'zbekcha, 한국어, Русский             | Done, 100% checked in CI                                   |
+| 🧪  | Translations: 8 other languages                               | About 20%, rest falls back to English                      |
+| 🧪  | Recording to MP4/WebM                                         | Done, format selection unit-tested; depends on the browser |
+| 🧪  | Web MIDI out and OSC through `strandlight-bridge`             | Implemented, not yet tested against real MIDI/OSC gear     |
+| ⏳  | Optional cloud layer (sign-in, gallery, email)                | Not started — see Roadmap                                  |
+
+## Tested so far
+
+**Automatically, on every pull request (CI):** ESLint and Prettier, the translation check (tier-1 languages must be 100%), 29 unit tests in 8 files (One Euro filter, gestures and pinch hysteresis, note mapping and scales, the string field, the looper, scene encoding and validation, ICU message formatting, recorder format choice), a TypeScript typecheck, a full production build that downloads the hand model and verifies its SHA-256, and a check that the main bundle stays under 200 KB. CodeQL (security-extended) scans every push.
+
+**Not covered by automated tests:** the camera and hand tracking end to end, audio output, rendering and WebGL2 bloom, Web MIDI and OSC. There is no headless browser test yet.
+
+<!-- TODO(Bruce): list the browsers and devices you actually played it on, e.g.
+     "Played by the author on Chrome 1xx / macOS with the built-in camera". Only what really happened. -->
+
+**Security scanning:** CodeQL raised 5 alerts. Four were fixed in code. The fifth (`js/http-to-file-access` in `scripts/prepare-assets.mjs`) is a build-time download whose URL is a constant and whose bytes are written only after matching a pinned SHA-256; CodeQL cannot recognise a hash check as a sanitizer, so it was dismissed as a false positive with that reason written in the code.
+
+## Known limitations
+
+- The camera needs HTTPS or `localhost`, and permission from you. Without a camera, touch and mouse still work.
+- Recording (MP4, else WebM) and Web MIDI depend on what the browser supports; the app checks before using them. Safari has no Web MIDI.
+- OSC needs the separate [`strandlight-bridge`](packages/bridge) running on your machine.
+- The light theme uses Canvas 2D without bloom.
+- Not done yet: a tagged release, a demo video, a headless browser test, and the cloud layer.
+
+## Troubleshooting
+
+| Problem                                                        | What to check                                                                                                                                    |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| The camera never starts                                        | The page must be on HTTPS or `localhost`, and the browser must have camera permission for it. Touch and mouse still work without it.             |
+| `npm run dev` warns "Camera mode will be unavailable"          | The hand model could not be downloaded. Check your connection and run `npm run prepare-assets` again.                                            |
+| Build fails with "hash mismatch" or "disagree about the model" | The downloaded model or `assets.lock.json` does not match the pinned SHA-256. Do not pin a new hash without checking it against a second source. |
+| No MIDI output listed                                          | Use a browser with Web MIDI (Chrome, Edge, Firefox) and connect the device before enabling MIDI.                                                 |
+| OSC messages do not arrive                                     | Start `strandlight-bridge` first; it only listens on `localhost`.                                                                                |
 
 ## Roadmap
 
