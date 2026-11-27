@@ -3,7 +3,7 @@
   --fg: #eef1ff;
   --muted: rgba(238, 241, 255, 0.62);
   --line: rgba(238, 241, 255, 0.12);
-  --glass: rgba(10, 12, 26, 0.62);
+  --glass: rgba(10, 12, 26, 0.8);
   --accent: #ff4fd8;
   --accent-2: #7cf7ff;
   --accent-3: #ffc857;
@@ -18,7 +18,7 @@
   --fg: #fff4e2;
   --muted: rgba(255, 244, 226, 0.6);
   --line: rgba(255, 228, 180, 0.14);
-  --glass: rgba(24, 16, 8, 0.66);
+  --glass: rgba(24, 16, 8, 0.82);
   --accent: #f2a93b;
   --accent-2: #ffe3a3;
   --accent-3: #c8703a;
@@ -31,7 +31,7 @@
   --fg: #fff;
   --muted: rgba(255, 255, 255, 0.55);
   --line: rgba(255, 255, 255, 0.14);
-  --glass: rgba(8, 8, 8, 0.7);
+  --glass: rgba(8, 8, 8, 0.82);
   --accent: #fff;
   --accent-2: #e6e9ee;
   --accent-3: #b8bec8;
@@ -313,7 +313,7 @@ input {
   padding: 8px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--glass) 60%, transparent);
+  background: var(--glass);
   backdrop-filter: blur(14px);
 }
 

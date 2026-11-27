@@ -1,6 +1,7 @@
 /**
- * WebGL2 post-processing: threshold → two blur levels → additive bloom
- * with a touch of chromatic aberration. Input is the 2D scene canvas.
+ * WebGL2 post-processing on two layers: the base (background + camera) is shown as
+ * it is, while only the light layer (strings, sparks, fingertips) gets the bloom
+ * and a touch of chromatic aberration. A bright camera picture therefore never glows.
  */
 const VS = `#version 300 es
 in vec2 p; out vec2 uv;
@@ -9,7 +10,7 @@ void main(){ uv = p*0.5+0.5; gl_Position = vec4(p,0.,1.); }`;
 const BRIGHT = `#version 300 es
 precision mediump float; in vec2 uv; out vec4 o; uniform sampler2D t;
 void main(){ vec3 c = texture(t, uv).rgb; float l = max(c.r, max(c.g, c.b));
-  o = vec4(c * smoothstep(0.62, 1.0, l), 1.); }`;
+  o = vec4(c * smoothstep(0.2, 0.8, l), 1.); }`;
 
 const BLUR = `#version 300 es
 precision mediump float; in vec2 uv; out vec4 o; uniform sampler2D t; uniform vec2 d;
@@ -21,14 +22,18 @@ void main(){
 
 const COMPOSE = `#version 300 es
 precision mediump float; in vec2 uv; out vec4 o;
-uniform sampler2D scene; uniform sampler2D b1; uniform sampler2D b2; uniform float k; uniform float ca;
+uniform sampler2D base; uniform sampler2D fx; uniform sampler2D b1; uniform sampler2D b2;
+uniform float k; uniform float ca;
 void main(){
   vec2 off = (uv - 0.5) * ca;
-  vec3 s = vec3(texture(scene, uv + off).r, texture(scene, uv).g, texture(scene, uv - off).b);
+  vec4 f = texture(fx, uv);
+  // Light layer is premultiplied: composite it over the base, then add the glow.
+  vec3 light = vec3(texture(fx, uv + off).r, f.g, texture(fx, uv - off).b);
   vec3 b = texture(b1, uv).rgb * 1.1 + texture(b2, uv).rgb * 1.6;
-  vec3 c = s + b * k;
-  c = c / (1. + c * 0.12);
-  o = vec4(c, 1.); }`;
+  vec3 add = light + b * k;
+  add = add / (1. + add * 0.12);
+  vec3 c = texture(base, uv).rgb * (1. - f.a) + add;
+  o = vec4(min(c, vec3(1.)), 1.); }`;
 
 interface Target {
   fb: WebGLFramebuffer;
@@ -41,6 +46,7 @@ export class Bloom {
   private gl: WebGL2RenderingContext;
   private progs: Record<'bright' | 'blur' | 'compose', WebGLProgram>;
   private sceneTex: WebGLTexture;
+  private baseTex: WebGLTexture;
   private targets: Target[] = [];
   private w = 0;
   private h = 0;
@@ -70,6 +76,7 @@ export class Bloom {
       compose: this.program(COMPOSE),
     };
     this.sceneTex = this.texture();
+    this.baseTex = this.texture();
   }
 
   private program(fs: string): WebGLProgram {
@@ -161,11 +168,15 @@ export class Bloom {
     }
   }
 
-  render(scene: HTMLCanvasElement | OffscreenCanvas, strength: number): void {
+  render(base: HTMLCanvasElement, scene: HTMLCanvasElement, strength: number): void {
     const gl = this.gl;
     this.resize(gl.canvas.width, gl.canvas.height);
-    gl.bindTexture(gl.TEXTURE_2D, this.sceneTex);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+    gl.bindTexture(gl.TEXTURE_2D, this.baseTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, base);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+    gl.bindTexture(gl.TEXTURE_2D, this.sceneTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, scene);
     const [bright, a, b, c, d] = this.targets as [Target, Target, Target, Target, Target];
 
@@ -182,7 +193,8 @@ export class Bloom {
     const p = this.progs.compose;
     this.pass(p, null, () => {
       const units: [string, WebGLTexture][] = [
-        ['scene', this.sceneTex],
+        ['base', this.baseTex],
+        ['fx', this.sceneTex],
         ['b1', b.tex],
         ['b2', d.tex],
       ];

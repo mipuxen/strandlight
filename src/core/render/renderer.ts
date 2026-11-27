@@ -28,8 +28,12 @@ export interface FrameState {
  */
 export class Renderer {
   readonly canvas: HTMLCanvasElement;
+  /** Light layer: strings, sparks, fingertips. The only layer that glows. */
   private scene: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
+  /** Base layer: background and camera, shown as they are (WebGL path only). */
+  private base: HTMLCanvasElement | null = null;
+  private bctx: CanvasRenderingContext2D | null = null;
   private bloom: Bloom | null = null;
   readonly particles = new Particles();
   width = 0;
@@ -37,10 +41,15 @@ export class Renderer {
   private dpr = 1;
 
   constructor(host: HTMLElement, light: boolean) {
-    this.scene = document.createElement('canvas');
-    this.ctx = this.scene.getContext('2d', { alpha: false }) as CanvasRenderingContext2D;
     const out = document.createElement('canvas');
     this.bloom = light ? null : Bloom.create(out);
+    this.scene = document.createElement('canvas');
+    // With bloom the light layer is transparent and composited over the base in WebGL.
+    this.ctx = this.scene.getContext('2d', { alpha: !!this.bloom }) as CanvasRenderingContext2D;
+    if (this.bloom) {
+      this.base = document.createElement('canvas');
+      this.bctx = this.base.getContext('2d', { alpha: false }) as CanvasRenderingContext2D;
+    }
     this.canvas = this.bloom ? out : this.scene;
     this.canvas.className = 'stage-canvas';
     this.canvas.setAttribute('aria-hidden', 'true');
@@ -65,7 +74,7 @@ export class Renderer {
   private resize(): void {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    for (const c of new Set([this.scene, this.canvas])) {
+    for (const c of new Set([this.scene, this.canvas, ...(this.base ? [this.base] : [])])) {
       c.width = Math.round(this.width * this.dpr);
       c.height = Math.round(this.height * this.dpr);
     }
@@ -83,30 +92,36 @@ export class Renderer {
 
   draw(f: FrameState, dt: number): void {
     const c = this.ctx;
+    const b = this.bctx ?? c;
     const { width: W, height: H } = this;
-    c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    c.globalCompositeOperation = 'source-over';
-    c.globalAlpha = 1;
-    c.fillStyle = f.theme.background;
-    c.fillRect(0, 0, W, H);
+    for (const x of new Set([b, c])) {
+      x.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+      x.globalCompositeOperation = 'source-over';
+      x.globalAlpha = 1;
+    }
+    b.fillStyle = f.theme.background;
+    b.fillRect(0, 0, W, H);
+    if (this.bctx) c.clearRect(0, 0, W, H);
 
-    // Mirrored camera, cover-fit, at the brightness the player picked.
+    // Mirrored camera, cover-fit, at the brightness the player picked (100% = natural).
+    const onVideo = f.showVideo && f.videoBrightness > 0.15 && !!f.video && f.video.readyState >= 2;
     if (f.showVideo && f.videoBrightness > 0 && f.video && f.video.readyState >= 2) {
       const vw = f.video.videoWidth;
       const vh = f.video.videoHeight;
       const s = Math.max(W / vw, H / vh);
-      c.save();
-      c.globalAlpha = Math.min(1, Math.max(0, f.videoBrightness));
-      c.translate(W, 0);
-      c.scale(-1, 1);
-      c.drawImage(f.video, (W - vw * s) / 2, (H - vh * s) / 2, vw * s, vh * s);
-      c.restore();
+      b.save();
+      b.globalAlpha = Math.min(1, Math.max(0, f.videoBrightness));
+      b.translate(W, 0);
+      b.scale(-1, 1);
+      b.drawImage(f.video, (W - vw * s) / 2, (H - vh * s) / 2, vw * s, vh * s);
+      b.restore();
     }
 
     c.globalCompositeOperation = 'lighter';
     const glow2d = !this.bloom;
 
-    for (const s of f.strands) this.drawStrand(s, f, glow2d);
+    for (const s of f.strands) this.drawStrand(s, f, glow2d, onVideo);
+    c.globalCompositeOperation = 'lighter';
 
     for (const p of f.previews) {
       const a = this.px(p.a);
@@ -180,10 +195,10 @@ export class Renderer {
 
     c.globalAlpha = 1;
     c.globalCompositeOperation = 'source-over';
-    if (this.bloom) this.bloom.render(this.scene, f.theme.bloom);
+    if (this.bloom && this.base) this.bloom.render(this.base, this.scene, f.theme.bloom);
   }
 
-  private drawStrand(s: Strand, f: FrameState, glow2d: boolean): void {
+  private drawStrand(s: Strand, f: FrameState, glow2d: boolean, onVideo: boolean): void {
     const c = this.ctx;
     const a = this.px(s.a);
     const b = this.px(s.b);
@@ -207,31 +222,59 @@ export class Renderer {
       }
     };
 
-    c.strokeStyle = color;
     c.lineCap = 'round';
+    c.lineJoin = 'round';
     const base = 0.55 + energy * 0.45;
-    if (glow2d) {
-      // Fake bloom with wide, faint strokes underneath.
-      for (const [w, alpha] of [
-        [10, 0.06],
-        [5, 0.12],
-      ] as const) {
-        c.globalAlpha = alpha * s.life * (0.6 + energy);
-        c.lineWidth = f.theme.width * w;
-        path();
-        c.stroke();
+
+    if (onVideo) {
+      // Over a camera picture, light added to light turns white. Draw the string on
+      // top instead: a thin dark edge underneath keeps its color readable on any background.
+      c.globalCompositeOperation = 'source-over';
+      c.globalAlpha = 0.55 * s.life;
+      c.strokeStyle = '#05060F';
+      c.lineWidth = f.theme.width * (1 + energy * 0.8) + 5;
+      path();
+      c.stroke();
+      c.globalAlpha = s.life;
+      c.strokeStyle = color;
+      c.lineWidth = f.theme.width * (1.3 + energy * 0.8);
+      if (glow2d) {
+        c.shadowColor = color;
+        c.shadowBlur = 16;
       }
+      path();
+      c.stroke();
+      c.shadowBlur = 0;
+      c.globalAlpha = (0.5 + energy * 0.5) * s.life;
+      c.strokeStyle = '#ffffff';
+      c.lineWidth = Math.max(0.6, f.theme.width * 0.35);
+      path();
+      c.stroke();
+    } else {
+      c.strokeStyle = color;
+      if (glow2d) {
+        // Fake bloom with wide, faint strokes underneath.
+        for (const [w, alpha] of [
+          [10, 0.06],
+          [5, 0.12],
+        ] as const) {
+          c.globalAlpha = alpha * s.life * (0.6 + energy);
+          c.lineWidth = f.theme.width * w;
+          path();
+          c.stroke();
+        }
+      }
+      c.globalAlpha = base * s.life;
+      c.lineWidth = f.theme.width * (1 + energy * 0.8);
+      path();
+      c.stroke();
+      // Hot core.
+      c.globalAlpha = (0.35 + energy * 0.65) * s.life;
+      c.strokeStyle = '#ffffff';
+      c.lineWidth = Math.max(0.6, f.theme.width * 0.35);
+      path();
+      c.stroke();
     }
-    c.globalAlpha = base * s.life;
-    c.lineWidth = f.theme.width * (1 + energy * 0.8);
-    path();
-    c.stroke();
-    // Hot core.
-    c.globalAlpha = (0.35 + energy * 0.65) * s.life;
-    c.strokeStyle = '#ffffff';
-    c.lineWidth = Math.max(0.6, f.theme.width * 0.35);
-    path();
-    c.stroke();
     // Anchor points.
     c.fillStyle = color;
     for (const p of [a, b]) {

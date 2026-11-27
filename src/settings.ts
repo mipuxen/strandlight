@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: Settings = {
   velocity: true,
   volume: 0.85,
   showVideo: true,
-  videoBrightness: 0.55,
+  videoBrightness: 0.45,
   recordSource: 'scene',
 };
 
